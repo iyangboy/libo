@@ -43,10 +43,10 @@ class AdminUsersController extends AdminController
         $grid->column('name', '昵称');
         // $grid->column('remember_token', __('Remember token'));
 
-        $grid->column('source_count', '来源数');
+        $grid->column('source_count', '来源数')->label('success');
 
         if (Admin::user()->can('set-sources')) {
-            $grid->column('source_real_count', '来源实际数');
+            $grid->column('source_real_count', '来源实际数')->label('warning');
         }
 
         $grid->column('created_at', '创建时间');
