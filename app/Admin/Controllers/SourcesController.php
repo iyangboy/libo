@@ -51,6 +51,11 @@ class SourcesController extends AdminController
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '更新时间');
 
+        // 去掉筛选
+        $grid->disableFilter();
+        // 去掉导出
+        $grid->disableExport();
+
         $grid->actions(function ($actions) {
             // 检查权限
             // if (Permission::check('set-sources')) {
