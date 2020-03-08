@@ -11,4 +11,10 @@ class Source extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = [];
+
+    // 关联管理员
+    public function adminUser()
+    {
+        return $this->belongsTo(adminUser::class, 'admin_user_id');
+    }
 }

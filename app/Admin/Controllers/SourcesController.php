@@ -29,17 +29,22 @@ class SourcesController extends AdminController
     {
         $grid = new Grid(new Source);
 
+        $grid->model()->with(['adminUser']);
+
         $grid->column('id', 'iD');
         $grid->column('name', '名称');
         $grid->column('slug', '标记');
-        $grid->column('admin_user_id', '关联管理员');
+        $grid->column('adminUser.name', '关联管理员')->label('success');
+        // $grid->column('admin_user_id', '关联管理员')->display(function() {
+        //     return '<span class="label label-success">' . $this->admin_user->name ?? '' .'</span> ';
+        // });
         $grid->column('remark', '备注');
 
         $grid->column('user_count', '来源总数');
 
         if (Admin::user()->can('set-sources')) {
             $grid->column('user_count_decrement', '来源扣除数');
-            $grid->column('user_count_decrement_base', '扣除基数');
+            $grid->column('user_count_decrement_base', '扣除基数')->label('danger');
             $grid->column('user_count_real', '真实总数');
         }
 
@@ -106,7 +111,7 @@ class SourcesController extends AdminController
         $form = new Form(new Source);
 
         $form->text('name', '名称');
-        $form->text('slug', '标记');
+        // $form->text('slug', '标记');
         // $form->number('admin_user_id', '关联管理员');
         $form->text('remark', '备注');
         // $form->number('user_count', '来源总数');

@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\AdminUser;
 use App\Models\User;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -116,5 +117,18 @@ class UsersController extends AdminController
         $form->text('registration_id', __('Registration id'));
 
         return $form;
+    }
+
+    // 获取后台用户
+    public function selectAdminUser()
+    {
+        $adminUsers = AdminUser::get();
+        $select = [];
+        //dd($series->toArray());
+        foreach ($adminUsers as $key => $value) {
+            $select[$key]['id'] = $value->id;
+            $select[$key]['text'] = $value->name ?? '';
+        }
+        return $select;
     }
 }
