@@ -7,6 +7,7 @@ use App\Models\AdminUser;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
 class AdminUsersController extends AdminController
@@ -18,6 +19,14 @@ class AdminUsersController extends AdminController
      */
     protected $title = '后台操作人员';
 
+    public function index(Content $content)
+    {
+
+        return $content
+            ->header('后台操作人员')
+            ->description('列表')
+            ->body($this->grid());
+    }
     /**
      * Make a grid builder.
      *

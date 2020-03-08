@@ -1,5 +1,12 @@
 <?php
 
+use App\Models\AdminUser;
+
+Route::get('/test', function(){
+    $adminUser = AdminUser::find(3);
+    dd($adminUser->toArray());
+});
+
 Route::get('/', 'TopicsController@index')->name('root');
 
 // 用户身份验证相关的路由
