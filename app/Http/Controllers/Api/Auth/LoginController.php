@@ -28,7 +28,9 @@ class LoginController extends Controller
 
         return (new PrivateUserResource($user))->additional([
             'meta' => [
-                'token' => $token,
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
             ]
         ]);
     }
