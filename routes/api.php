@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
  */
 
+Route::group(['prefix' => 'auth', 'namespace' => 'Api'], function () {
+    // Route::post('register', 'Auth\RegisterController@register');
+    // Route::post('login', 'Auth\LoginController@login');
+    // Route::get('me', 'Auth\MeController@me');
+});
+
 Route::prefix('v1')
     ->namespace('Api')
     ->middleware('change-locale')

@@ -12,6 +12,7 @@
         "doctrine/dbal": "^2.9",
         "encore/laravel-admin": "1.7.7",
         "fideloper/proxy": "^4.0",
+        "fruitcake/laravel-cors": "^1.0",
         "gregwar/captcha": "^1.1",
         "guzzlehttp/guzzle": "~6.3",
         "intervention/image": "^2.5",
