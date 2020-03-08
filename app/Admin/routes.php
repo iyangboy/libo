@@ -12,4 +12,6 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('admin.home');
 
+    // 用户
+    $router->resource('users', UsersController::class);
 });
