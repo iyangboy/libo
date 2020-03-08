@@ -2,7 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+use \Admin;
+use App\Admin\Actions\Sources\SetSources;
 use App\Models\Source;
+use Encore\Admin\Auth\Permission;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -34,12 +37,30 @@ class SourcesController extends AdminController
 
         $grid->column('user_count', '来源总数');
 
-        $grid->column('user_count_decrement', '来源扣除数');
-        $grid->column('user_count_decrement_base', '扣除基数');
-        $grid->column('user_count_real', '真实总数');
+        if (Admin::user()->can('set-sources')) {
+            $grid->column('user_count_decrement', '来源扣除数');
+            $grid->column('user_count_decrement_base', '扣除基数');
+            $grid->column('user_count_real', '真实总数');
+        }
 
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '更新时间');
+
+        $grid->actions(function ($actions) {
+            // 检查权限
+            // if (Permission::check('set-sources')) {
+            //
+            //     $actions->add(new SetSources);
+            // }
+            if (!Admin::user()->can('set-sources')) {
+                // 删除
+                $actions->disableDelete();
+            }
+            if (Admin::user()->can('set-sources')) {
+                // 设置来源信息
+                $actions->add(new SetSources);
+            }
+        });
 
         return $grid;
     }
@@ -63,9 +84,11 @@ class SourcesController extends AdminController
 
         $show->field('user_count', '来源总数');
 
-        $show->field('user_count_decrement', '来源扣除数');
-        $show->field('user_count_decrement_base', '扣除基数');
-        $show->field('user_count_real', '真实总数');
+        if (Admin::user()->can('set-sources')) {
+            $show->field('user_count_decrement', '来源扣除数');
+            $show->field('user_count_decrement_base', '扣除基数');
+            $show->field('user_count_real', '真实总数');
+        }
 
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '更新时间');
@@ -84,11 +107,11 @@ class SourcesController extends AdminController
 
         $form->text('name', '名称');
         $form->text('slug', '标记');
-        $form->number('admin_user_id', '关联管理员');
+        // $form->number('admin_user_id', '关联管理员');
         $form->text('remark', '备注');
         // $form->number('user_count', '来源总数');
         // $form->number('user_count_decrement', '来源扣除数');
-        $form->number('user_count_decrement_base', '扣除基数');
+        // $form->number('user_count_decrement_base', '扣除基数');
         // $form->number('user_count_real', '真实总数');
 
         return $form;
