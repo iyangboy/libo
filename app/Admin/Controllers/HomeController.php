@@ -12,6 +12,7 @@ class HomeController extends Controller
 {
     public function index(Content $content)
     {
+        return $content->title('控制面板');
         return $content
             ->title('Dashboard')
             ->description('Description...')
