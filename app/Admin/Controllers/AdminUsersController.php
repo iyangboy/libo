@@ -28,10 +28,10 @@ class AdminUsersController extends AdminController
         $grid = new Grid(new AdminUser);
 
         $grid->column('id', 'ID');
+        $grid->column('avatar', '头像')->image('', 100, 100)->width(120);
         $grid->column('username', '用户名称');
         // $grid->column('password', __('Password'));
         $grid->column('name', '昵称');
-        $grid->column('avatar', '头像');
         // $grid->column('remember_token', __('Remember token'));
 
         $grid->column('source_count', '来源数');
