@@ -23,4 +23,7 @@ Route::group([
 
     // 后台用户
     $router->resource('admin-users', 'AdminUsersController');
+
+    // 设置会员
+    $router->resource('vip-products', 'MemberProductsController');
 });
