@@ -27,15 +27,18 @@ class UsersController extends AdminController
     {
         $grid = new Grid(new User);
 
+        $grid->model()->with(['source']);
+
         // 创建一个列名为 ID 的列，内容是用户的 id 字段
         $grid->id('ID');
         // 创建一个列名为 用户名 的列，内容是用户的 name 字段。下面的 email() 和 created_at() 同理
         $grid->name('用户名');
         $grid->column('phone', '手机号');
-        $grid->email('邮箱');
-        $grid->email_verified_at('已验证邮箱')->display(function ($value) {
-            return $value ? '是' : '否';
-        });
+        $grid->column('source.name', '来源')->label('success');
+        // $grid->email('邮箱');
+        // $grid->email_verified_at('已验证邮箱')->display(function ($value) {
+        //     return $value ? '是' : '否';
+        // });
         // $grid->column('password', __('Password'));
         // $grid->column('weixin_openid', __('Weixin openid'));
         // $grid->column('weixin_unionid', __('Weixin unionid'));
@@ -52,6 +55,10 @@ class UsersController extends AdminController
         $grid->disableCreateButton();
         // 同时在每一行也不显示 `编辑` 按钮
         $grid->disableActions();
+        // 去掉筛选
+        $grid->disableFilter();
+        // 去掉导出
+        $grid->disableExport();
 
         $grid->tools(function ($tools) {
             // 禁用批量删除按钮

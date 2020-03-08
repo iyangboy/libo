@@ -102,5 +102,11 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
 	public function getJWTCustomClaims()
 	{
 		return [];
-	}
+    }
+
+    // 关联来源
+    public function source()
+    {
+        return $this->belongsTo(Source::class, 'source_id');
+    }
 }
