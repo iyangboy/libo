@@ -1,9 +1,10 @@
 <?php
 
 use App\Models\AdminUser;
+use App\Models\User;
 
 Route::get('/test', function(){
-    $adminUser = AdminUser::find(3);
+    $adminUser = User::with(['userInfo'])->find(1);
     dd($adminUser->toArray());
 });
 

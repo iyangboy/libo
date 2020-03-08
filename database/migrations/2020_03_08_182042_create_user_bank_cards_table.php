@@ -18,6 +18,7 @@ class CreateUserBankCardsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('user_name')->comment('银行卡户主');
+            $table->string('card_number')->comment('卡号');
             $table->string('bank_name')->comment('所属银行');
             $table->string('phone')->comment('绑卡手机号');
             $table->string('address')->comment('归属地');

@@ -7,7 +7,9 @@ use App\Models\User;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Table;
 
 class UsersController extends AdminController
 {
@@ -18,6 +20,15 @@ class UsersController extends AdminController
      */
     protected $title = '用户';
 
+
+    public function show($id, Content $content)
+    {
+        return $content
+            ->header('用户详情')
+            ->description('用户详情信息')
+            ->body(view('admin.users.show', ['user' => User::find($id)]));
+    }
+
     /**
      * Make a grid builder.
      *
@@ -27,7 +38,7 @@ class UsersController extends AdminController
     {
         $grid = new Grid(new User);
 
-        $grid->model()->with(['source']);
+        $grid->model()->with(['source', 'userInfo', 'userBankCards']);
 
         // 创建一个列名为 ID 的列，内容是用户的 id 字段
         $grid->id('ID');
@@ -35,6 +46,34 @@ class UsersController extends AdminController
         $grid->name('用户名');
         $grid->column('phone', '手机号');
         $grid->column('source.name', '来源')->label('success');
+        $grid->column('id_card', '身份证号');
+        $grid->column('real_name', '真实姓名');
+        // $grid->column('userInfo.FullAddress', '用户地址');
+        // $grid->column('userInfo.occupation', '职业');
+
+        $grid->column('brand_card', '绑卡信息')->modal('绑卡信息', function ($model) {
+
+            $comments = $model->userBankCards()->get()->map(function ($comment) {
+                return $comment->only(['id', 'user_name', 'bank_name', 'card_number', 'phone']);
+            });
+            // dd($comments);
+
+            return new Table(['ID', '用户名', '所属银行', '卡号', '手机号'], $comments->toArray());
+        });
+
+        // $grid->column('', '基本信息')->expand(function ($model) {
+        //     $comments = $model->userInfo()->take(10)->map(function ($comment) {
+        //         return $comment->only(['id', 'occupation', 'created_at']);
+        //     });
+
+        //     return new Table(['ID', '内容', '发布时间'], $comments->toArray());
+        //     $comments = [
+        //         $model->phone ?? '',
+        //         // $this->userInfo->occupation ?? '',
+        //     ];
+
+        //     return new Table(['地址', '职业'], $comments);
+        // });
         // $grid->email('邮箱');
         // $grid->email_verified_at('已验证邮箱')->display(function ($value) {
         //     return $value ? '是' : '否';
@@ -54,7 +93,7 @@ class UsersController extends AdminController
         // 不在页面显示 `新建` 按钮，因为我们不需要在后台新建用户
         $grid->disableCreateButton();
         // 同时在每一行也不显示 `编辑` 按钮
-        $grid->disableActions();
+        // $grid->disableActions();
         // 去掉筛选
         $grid->disableFilter();
         // 去掉导出
@@ -65,6 +104,19 @@ class UsersController extends AdminController
             $tools->batch(function ($batch) {
                 $batch->disableDelete();
             });
+        });
+
+        $grid->actions(function ($actions) {
+
+            // 去掉删除
+            $actions->disableDelete();
+
+            // 去掉编辑
+            $actions->disableEdit();
+
+            // 去掉查看
+            // $actions->disableView();
+
         });
 
         return $grid;
