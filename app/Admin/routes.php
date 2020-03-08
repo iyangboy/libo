@@ -26,4 +26,7 @@ Route::group([
 
     // 设置会员
     $router->resource('vip-products', 'MemberProductsController');
+
+    // 用户Vip订单
+    $router->resource('user-vip-orders', 'UserVipOrdersController');
 });
