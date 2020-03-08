@@ -38,7 +38,7 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'introduction', 'avatar',
         'weixin_openid', 'weixin_unionid', 'registration_id',
-        'source_id'
+        'source_id', 'id_card', 'real_name'
     ];
 
     protected $hidden = [
@@ -47,6 +47,7 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'card_verified_at' => 'datetime',
     ];
 
     public function topics()
@@ -109,5 +110,11 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
     public function source()
     {
         return $this->belongsTo(Source::class, 'source_id');
+    }
+
+    // 用户基本信息
+    public function userInfo()
+    {
+        return $this->hasOne(UserInfo::class, 'user_id');
     }
 }
