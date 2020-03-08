@@ -20,4 +20,7 @@ Route::group([
     $router->resource('sources', 'SourcesController');
     // 销售Select
     $router->get('select_admin_user', 'UsersController@selectAdminUser')->name('select_admin_user');
+
+    // 后台用户
+    $router->resource('admin-users', 'AdminUsersController');
 });
