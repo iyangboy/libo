@@ -20,7 +20,7 @@ class CreateAgreementsTable extends Migration
             $table->string('slug')->unique()->comment('slug');
             $table->string('type')->nullable()->comment('类型');
             $table->string('title')->nullable()->comment('标题');
-            $table->text('content')->nullable()->comment('内容');
+            $table->longText('content')->nullable()->comment('内容');
             $table->boolean('on_sale')->default(true)->comment('是否上线');
             $table->timestamps();
         });

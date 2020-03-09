@@ -29,4 +29,7 @@ Route::group([
 
     // 用户Vip订单
     $router->resource('user-vip-orders', 'UserVipOrdersController');
+
+    // 协议
+    $router->resource('agreements', 'AgreementsController');
 });
