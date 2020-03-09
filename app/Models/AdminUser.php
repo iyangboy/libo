@@ -40,4 +40,11 @@ class AdminUser extends Model
     {
         return $this->hasMany(Source::class, 'admin_user_id');
     }
+
+    // 发布协议
+    public function agreements()
+    {
+        return $this->hasMany(Agreement::class, 'admin_user_id');
+    }
+
 }
