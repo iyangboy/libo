@@ -13,6 +13,9 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('admin.home');
 
+    // 图片上传（simditor）
+    $router->post('simditor_upload_image', 'SimditorController@uploadImage');
+
     // 用户
     // $router->resource('users', UsersController::class);
     $router->resource('users', 'UsersController');

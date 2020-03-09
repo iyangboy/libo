@@ -95,7 +95,7 @@ class AgreementsController extends AdminController
         // $show->field('slug', __('Slug'));
         // $show->field('type', '类型');
         $show->field('title', '标题');
-        $show->field('content', '内容');
+        $show->field('content', '内容')->unescape();
         $show->field('on_sale', '是否上线');
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '更新时间');
@@ -116,8 +116,10 @@ class AgreementsController extends AdminController
         // $form->text('slug', __('Slug'));
         // $form->text('type', '类型');
         $form->text('title', '标题');
-        $form->textarea('content', '内容');
         $form->switch('on_sale', '是否上线')->default(1);
+        $form->textarea('content', '内容');
+        // $form->simditor('content', '内容');
+        // $form->quill('content', '内容');
 
         return $form;
     }

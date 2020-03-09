@@ -106,6 +106,7 @@ class MemberProductsController extends AdminController
         $form->image('image', __('Image'));
         $form->text('title', '标题');
         $form->textarea('description', '描述');
+        // $form->quill('description', '内容');
         $form->switch('on_sale', '是否上线')->default(1);
         // $form->decimal('price', '价格');
         $form->text('price', '价格');

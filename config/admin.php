@@ -348,9 +348,7 @@ return [
     'minify_assets' => [
 
         // Assets will not be minified.
-        'excepts' => [
-
-        ],
+        'excepts' => [],
 
     ],
 
@@ -395,6 +393,62 @@ return [
     |
     */
     'extensions' => [
-
+        'simditor' => [
+            // Set to false if you want to disable this extension
+            'enable' => true,
+            // Editor configuration
+            'config' => [
+                'upload' => [
+                    'url' => '/admin/simditor_upload_image', # example api route: admin/api/upload
+                    'fileKey' => 'upload_file',
+                    'connectionCount' => 3,
+                    'leaveConfirm' => 'Uploading is in progress, are you sure to leave this page?'
+                ],
+                'tabIndent' => true,
+                'toolbar' => ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'],
+                'toolbarFloat' => true,
+                'toolbarFloatOffset' => 0,
+                'toolbarHidden' => false,
+                'pasteImage' => true,
+                'cleanPaste' => false,
+            ]
+        ],
+        'quill' => [
+            // If the value is set to false, this extension will be disabled
+            'enable' => true,
+            'config' => [
+                'modules' => [
+                    'syntax' => true,
+                    'toolbar' =>
+                    [
+                        ['size' => []],
+                        ['header' => []],
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strike',
+                        ['script' => 'super'],
+                        ['script' => 'sub'],
+                        ['color' => []],
+                        ['background' => []],
+                        'blockquote',
+                        'code-block',
+                        ['list' => 'ordered'],
+                        ['list' => 'bullet'],
+                        ['indent' => '-1'],
+                        ['indent' => '+1'],
+                        'direction',
+                        ['align' => []],
+                        'link',
+                        'image',
+                        'video',
+                        'formula',
+                        'clean'
+                    ],
+                ],
+                'theme' => 'snow',
+                'height' => '200px',
+            ]
+        ]
     ],
 ];

@@ -17,6 +17,8 @@
         "guzzlehttp/guzzle": "~6.3",
         "intervention/image": "^2.5",
         "jpush/jpush": "^3.6",
+        "jxlwqq/quill": "^1.0",
+        "jxlwqq/simditor": "^1.0",
         "laravel/framework": "^6.0",
         "laravel/horizon": "~3.1",
         "laravel/tinker": "^1.0",
