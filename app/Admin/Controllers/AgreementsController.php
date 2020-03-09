@@ -58,19 +58,21 @@ class AgreementsController extends AdminController
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '更新时间');
 
-        if (!Admin::user()->can('set-agreements')) {
-            $grid->tools(function ($tools) {
-                // 禁用批量删除按钮
-                $tools->batch(function ($batch) {
-                    $batch->disableDelete();
-                });
+        $grid->tools(function ($tools) {
+            // 禁用批量删除按钮
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
             });
+        });
+        // 去掉筛选
+        $grid->disableFilter();
+        // 去掉导出
+        $grid->disableExport();
+
+        if (!Admin::user()->can('set-agreements')) {
             // 去掉新建
             $grid->disableCreateButton();
-            // 去掉筛选
-            $grid->disableFilter();
-            // 去掉导出
-            $grid->disableExport();
+
             // 关闭操作
             $grid->disableActions();
         }
