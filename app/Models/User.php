@@ -124,4 +124,10 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
     {
         return $this->hasMany(UserBankCard::class, 'user_id');
     }
+
+    // 用户等级
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class, 'grade_id');
+    }
 }
