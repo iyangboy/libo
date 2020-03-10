@@ -166,6 +166,10 @@ Route::get('/test-product-specification', function () {
     dd($product);
 });
 
+Route::get('phpinfo', function() {
+    phpinfo();
+});
+
 Route::redirect('/', '/admin');
 /*
 Route::get('/', 'TopicsController@index')->name('root');
