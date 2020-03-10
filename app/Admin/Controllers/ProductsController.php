@@ -37,7 +37,15 @@ class ProductsController extends AdminController
         $grid->column('title', '标题');
         $grid->column('long_title', '长标题');
         $grid->column('description', '描述');
-        $grid->column('on_sale', '是否上线');
+        $grid->column('on_sale', '是否上线')->display(function ($value) {
+            return $value ? '是' : '否';
+        })->label([
+            0 => 'warning',
+            1 => 'success',
+        ])->filter([
+            0 => '否',
+            1 => '是',
+        ]);
         // $grid->column('rating', '评分');
         $grid->column('sold_count', '销量');
         // $grid->column('review_count', '评价数量');
@@ -66,7 +74,7 @@ class ProductsController extends AdminController
                 }
                 $comments[$key]['interest_rate'] = $sku['interest_rate'];
                 $comments[$key]['stock'] = $sku['stock'];
-                $comments[$key]['on_sale'] = $sku['on_sale'] ? '已上线' : '否';
+                $comments[$key]['on_sale'] = $sku['on_sale'] ? '是' : '否';
                 $comments[$key]['price'] = $sku['price'];
             }
             // dd($comments);
