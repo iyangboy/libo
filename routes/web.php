@@ -166,6 +166,8 @@ Route::get('/test-product-specification', function () {
     dd($product);
 });
 
+Route::redirect('/', '/admin');
+/*
 Route::get('/', 'TopicsController@index')->name('root');
 
 // 用户身份验证相关的路由
@@ -204,3 +206,5 @@ Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]
 Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
 
 Route::get('permission-denied', 'PagesController@permissionDenied')->name('permission-denied');
+
+*/
