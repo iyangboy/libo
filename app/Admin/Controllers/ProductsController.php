@@ -3,7 +3,9 @@
 namespace App\Admin\Controllers;
 
 use \Admin;
+use App\Admin\Actions\Products\SetAdminUser;
 use App\Models\Product;
+use Encore\Admin\Auth\Permission;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -102,6 +104,13 @@ class ProductsController extends AdminController
             // 关闭操作
             $grid->disableActions();
         }
+
+        $grid->actions(function ($actions) {
+            // 检查权限
+            if (Permission::check('set-produsts-admin-user')) {
+                $actions->add(new SetAdminUser);
+            }
+        });
 
         return $grid;
     }

@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Admin\Actions\Sources;
+namespace App\Admin\Actions\Products;
 
 use Encore\Admin\Actions\RowAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class SetSources extends RowAction
+class SetAdminUser extends RowAction
 {
-    public $name = '设置来源信息';
+    public $name = '设置管理员';
 
     public function handle(Model $model, Request $request)
     {
-        // $model ...
         $admin_user_id = $request->admin_user_id ?? 0;
         $slug = $request->slug ?? '';
-        $user_count_decrement_base = $request->user_count_decrement_base ?? 0;
 
         $model->admin_user_id = $admin_user_id;
         $model->slug = $slug;
-        $model->user_count_decrement_base = $user_count_decrement_base;
+
         $model->save();
 
         return $this->response()->success('操作成功')->refresh();
@@ -29,8 +27,7 @@ class SetSources extends RowAction
     {
         $this->select('admin_user_id', '选择管理员')->options(route('admin.select_admin_user'))->default($model->admin_user_id);
 
-        $this->text('slug', 'Slug')->default($model->slug)->rules('required|unique:sources,slug,' . $model->id);
-        $this->text('user_count_decrement_base', '扣除基数')->default($model->user_count_decrement_base);
+        $this->text('slug', 'Slug')->default($model->slug)->rules('required|unique:products,slug,' . $model->id);
     }
 
 }
