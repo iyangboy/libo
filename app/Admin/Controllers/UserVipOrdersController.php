@@ -77,6 +77,9 @@ class UserVipOrdersController extends AdminController
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '更新时间');
 
+        // 去掉导出
+        $grid->disableExport();
+
         if (!Admin::user()->can('set-user-vip-orders')) {
             $grid->tools(function ($tools) {
                 // 禁用批量删除按钮
@@ -88,8 +91,6 @@ class UserVipOrdersController extends AdminController
             $grid->disableCreateButton();
             // 去掉筛选
             $grid->disableFilter();
-            // 去掉导出
-            $grid->disableExport();
             // 关闭操作
             $grid->disableActions();
         }

@@ -107,7 +107,11 @@ class ProductsController extends AdminController
 
         $grid->actions(function ($actions) {
             // 检查权限
-            if (Permission::check('set-produsts-admin-user')) {
+            // if (Permission::check('set-produsts-admin-user')) {
+            //     $actions->add(new SetAdminUser);
+            // }
+            if (Admin::user()->can('set-produsts-admin-user')) {
+                // 设置来源信息
                 $actions->add(new SetAdminUser);
             }
         });
