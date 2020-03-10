@@ -19,3 +19,7 @@
  */
 
 Encore\Admin\Form::forget(['map', 'editor']);
+
+use Encore\Admin\Admin;
+
+Admin::style('.column-permissions {max-width:200px;word-wrap: break-word;word-break: break-all;overflow: hidden;}');
