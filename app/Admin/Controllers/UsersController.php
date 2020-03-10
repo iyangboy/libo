@@ -38,11 +38,12 @@ class UsersController extends AdminController
     {
         $grid = new Grid(new User);
 
-        $grid->model()->with(['source', 'userInfo', 'userBankCards']);
+        $grid->model()->with(['source', 'grade', 'userInfo', 'userBankCards']);
 
         // 创建一个列名为 ID 的列，内容是用户的 id 字段
         $grid->id('ID');
         // 创建一个列名为 用户名 的列，内容是用户的 name 字段。下面的 email() 和 created_at() 同理
+        $grid->column('grade.name', 'VIP等级')->label('success');
         $grid->name('用户名');
         $grid->column('phone', '手机号');
         $grid->column('source.name', '来源')->label('success');

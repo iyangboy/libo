@@ -35,4 +35,7 @@ Route::group([
 
     // 协议
     $router->resource('agreements', 'AgreementsController');
+
+    // 等级
+    $router->resource('grades', 'GradesController');
 });
