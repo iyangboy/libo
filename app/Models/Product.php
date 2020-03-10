@@ -29,4 +29,10 @@ class Product extends Model
     {
         return $this->hasMany(ProductSku::class, 'product_id');
     }
+
+    // 规格
+    public function productSpecification()
+    {
+        return $this->hasMany(ProductSpecification::class, 'product_id');
+    }
 }

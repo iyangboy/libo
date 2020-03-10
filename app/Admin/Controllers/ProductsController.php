@@ -168,7 +168,28 @@ class ProductsController extends AdminController
         $form->decimal('interest_rate', '日利率');
         $form->decimal('price', '服务费');
         // $form->textarea('specification', '规格');
-        $form->textarea('description', '描述')->rules('required|min:10');
+        // $form->textarea('description', '描述')->rules('required|min:10');
+        $form->quill('description', '描述')->rules('required');
+
+        // 直接添加一对多的关联模型
+        $form->hasMany('setSpecification', '规格', function (Form\NestedForm $form, $i = 0 ) {
+            $i++;
+            $form->text("specification[$i]['slug']", 'Slug')->rules('required');
+            $form->text("specification[$i]['slug']['name']", '名称')->rules('required');
+            $form->text("specification[$i]['slug']['options']", '选项')->rules('required');
+            $form->text("specification[$i]['slug']['default']", '默认值')->rules('required');
+            $form->text("specification[$i]['slug']['name']", 'Slug')->rules('required');
+        });
+
+        // 直接添加一对多的关联模型
+        $form->hasMany('productSkus', 'SKU 列表', function (Form\NestedForm $form) {
+            $form->text('description', 'SKU 名称')->rules('required');
+            $form->text('description', 'SKU 描述')->rules('required');
+            $form->text('interest_rate', '日利息')->rules('required|numeric|min:0.0001');
+            $form->text('price', '服务费')->rules('required|numeric|min:0.01');
+            $form->text('stock', '剩余库存')->rules('required|integer|min:0');
+            $form->switch('on_sale', '是否上线')->default(1);
+        });
 
         //保存前回调
         $form->saving(function (Form $form) {
