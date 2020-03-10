@@ -15,6 +15,6 @@ class Source extends Model
     // 关联管理员
     public function adminUser()
     {
-        return $this->belongsTo(adminUser::class, 'admin_user_id');
+        return $this->belongsTo(AdminUser::class, 'admin_user_id');
     }
 }
