@@ -1,11 +1,169 @@
 <?php
 
 use App\Models\AdminUser;
+use App\Models\Product;
+use App\Models\ProductSku;
 use App\Models\User;
 
-Route::get('/test', function(){
+Route::get('/test', function () {
     $adminUser = User::with(['userInfo'])->find(1);
     dd($adminUser->toArray());
+});
+
+Route::get('/test-product-specification', function () {
+    //
+    $product_id = 1;
+    $product = Product::find($product_id);
+    $product->update([
+        'specification' => [
+            'loan_limit'  => [
+                'name'    => '贷款限额',
+                'options' => ['100000', '200000', '400000'],
+                'default' => '100000'
+            ],
+            'by_stages' => [
+                'name'    => '分期',
+                'options' => ['三个月', '半年', '一年', '两年'],
+                'default' => '半年'
+            ],
+        ]
+    ]);
+    // dd($product->toArray());
+
+    // $product->saveMany([
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '100000',
+                'by_stages' => '三个月'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 1000,
+            'interest_rate' => 0.0003
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '100000',
+                'by_stages' => '半年'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 800,
+            'interest_rate' => 0.0004
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '100000',
+                'by_stages' => '一年'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 500,
+            'interest_rate' => 0.0005
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '100000',
+                'by_stages' => '两年'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 2000,
+            'interest_rate' => 0.0004
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '200000',
+                'by_stages' => '三个月'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 2000,
+            'interest_rate' => 0.0004
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '200000',
+                'by_stages' => '半年'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 1600,
+            'interest_rate' => 0.0004
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '200000',
+                'by_stages' => '一年'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 1200,
+            'interest_rate' => 0.0004
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '200000',
+                'by_stages' => '两年'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 4000,
+            'interest_rate' => 0.0004
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '400000',
+                'by_stages' => '三个月'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 4000,
+            'interest_rate' => 0.0004
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '400000',
+                'by_stages' => '半年'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 3200,
+            'interest_rate' => 0.0004
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '400000',
+                'by_stages' => '一年'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 2400,
+            'interest_rate' => 0.0004
+        ]);
+        ProductSku::updateOrCreate([
+            'specification' => [
+                'loan_limit' => '400000',
+                'by_stages' => '两年'
+            ],
+            'product_id' => $product_id,
+        ], [
+            'stock' => 1000,
+            'price' => 8000,
+            'interest_rate' => 0.0004
+        ]);
+    dd($product);
 });
 
 Route::get('/', 'TopicsController@index')->name('root');

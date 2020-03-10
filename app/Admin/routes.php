@@ -38,4 +38,7 @@ Route::group([
 
     // 等级
     $router->resource('grades', 'GradesController');
+
+    // 商品
+    $router->resource('products', 'ProductsController');
 });

@@ -15,6 +15,7 @@ class Product extends Model
 
     protected $casts = [
         'on_sale' => 'boolean', // on_sale 是一个布尔类型的字段
+        'specification' => 'array', // object
     ];
 
     // 管理员
