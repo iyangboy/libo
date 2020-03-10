@@ -117,9 +117,9 @@ class AgreementsController extends AdminController
         // $form->text('type', '类型');
         $form->text('title', '标题');
         $form->switch('on_sale', '是否上线')->default(1);
-        $form->textarea('content', '内容');
+        // $form->textarea('content', '内容');
         // $form->simditor('content', '内容');
-        // $form->quill('content', '内容');
+        $form->quill('content', '内容');
 
         return $form;
     }
