@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	<!-- 扫描包被注解的组件生效 -->
+	<context:component-scan base-package="com.i2f.ect">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>  
+	</context:component-scan>
+	
+	<bean id="propertiesFactoryBean" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:cert-config.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- mvc的注解驱动 -->
+	<mvc:annotation-driven validator="validator">
+		<mvc:message-converters>
+			<!-- 文本MessageConverter  -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg index="0" value="UTF-8"/>
+			</bean>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="com.github.miemiedev.mybatis.paginator.jackson2.PageListJsonMapper" />
+				</property>  
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+  
+	<!-- 以下 validator  ConversionService 在使用 mvc:annotation-driven 会 自动注册-->  
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">  
+	    <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>  
+	    <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->  
+	    <property name="validationMessageSource" ref="messageSource"/>  
+	</bean>  
+	  
+	<!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->  
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">  
+	    <property name="basenames">  
+	        <list>  
+	            <!-- 在web环境中一定要定位到classpath 否则默认到当前web应用下找  -->  
+	            <value>classpath:messages</value>  
+	            <value>classpath:org/hibernate/validator/ValidationMessages</value>  
+	        </list>  
+	    </property>  
+	    <property name="useCodeAsDefaultMessage" value="false"/> 
+	    <property name="defaultEncoding" value="UTF-8"/>  
+	    <property name="cacheSeconds" value="60"/>  
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 前缀 -->
+		<property name="prefix" value="/WEB-INF/views/"/>
+		<!-- 后缀 -->
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<!-- 定义文件上传解析器 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设定默认编码 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!-- 设定文件上传的最大值5MB，5*1024*1024 -->
+		<property name="maxUploadSize" value="5242880"></property>
+	</bean>
+	
+	<!-- 处理静态资源被“/”所拦截的问题 -->
+	<mvc:default-servlet-handler/>
+
+    <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.github.miemiedev.mybatis.paginator.springmvc.PageListAttrHandlerInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+</beans>

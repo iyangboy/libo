@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="pgw-pay-test" default="install" basedir=".">
+ 	<target name="install">
+	    <property name="name" value="pgw-pay-test" />  
+		<!--<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>-->
+		<property name="target" value="${basedir}/target" />
+		<property name="target_lib" value="${target}/WEB-INF/lib" />
+		<property name="target_classes" value="${target}/WEB-INF/classes" />
+		<property name="p.e" value="${p_e}" />
+		
+		<delete dir="${target}"/>
+ 		<mkdir dir="${target}"/>
+		<mkdir dir="${target_lib}"/>
+		<mkdir dir="${target_classes}"/>
+		<copy todir="${target}">
+			<fileset dir="${basedir}/WebContent/" excludes="WEB-INF/classes/*,WEB-INF/classes/*.*,WEB-INF/lib/*.*"/>
+		</copy>
+		
+ 		<delete includeEmptyDirs="true">
+			<fileset dir="${target_classes}" includes="**/*"/>
+		</delete>
+ 		<delete includeEmptyDirs="true">
+			<fileset dir="${target_lib}" includes="**/*"/>
+		</delete>
+
+
+		<copy todir="${target_lib}">
+			<fileset dir="${basedir}/WebContent/WEB-INF/lib" includes="**/*"/>
+		</copy>
+		<path id="lib.path">
+			<fileset dir="${target_lib}">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${basedir}/lib">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+
+		<path id="classpath">
+			<path refid="lib.path" />
+			<pathelement location="${target_classes}" />
+		</path>
+
+		<javac srcdir="${basedir}/src" destdir="${target_classes}" debug="true" includeantruntime="on" encoding="UTF-8" >
+			<classpath refid="classpath" />
+		</javac>
+
+		<copy todir="${target_classes}">
+			<fileset dir="${basedir}/conf/"/>
+		</copy>
+		<copy todir="${target_classes}" overwrite="true">
+			<fileset dir="${basedir}/conf/${p.e}"/>
+		</copy>
+		
+		<war warfile="${target}/${name}.war" webxml="${target}/WEB-INF/web.xml">
+			<fileset dir="${target}"/>
+		</war>
+	</target>
+</project>
