@@ -171,14 +171,14 @@ class OrdersController extends AdminController
         $form->text('no', '订单流水号');
         $form->decimal('loan_amount', '借款金额');
         $form->decimal('price', '服务费');
-        // $form->number('product_by_stage_id', __('Product by stage id'));
-        $form->number('by_stage', '分期数')->default(1);
+        $form->select('product_by_stage_id', '选择分期')->options(route('admin.select_products_by_stages', [1]));;
+        // $form->number('by_stage', '分期数')->default(1);
         $form->textarea('remark', '备注');
         $form->datetime('paid_at', '支付时间')->default(date('Y-m-d H:i:s'));
         $form->text('payment_method', '支付方式');
         $form->text('payment_no', '支付编号');
         // $form->text('refund_status', '退款状态')->default('pending');
-        $form->text('refund_no', '退款编号');
+        // $form->text('refund_no', '退款编号');
         $form->switch('closed', '是否关闭');
         $form->text('ship_status', '订单状态')->default('pending');
 

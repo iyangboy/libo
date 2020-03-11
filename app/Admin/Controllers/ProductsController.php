@@ -203,9 +203,10 @@ class ProductsController extends AdminController
         // 直接添加一对多的关联模型
         $form->hasMany('productByStage', '分期选项', function (Form\NestedForm $form) {
             $form->hidden('type')->default('by_stage');
-            $form->text('value', '分期数')->rules('required');
+            $form->select('value', '分期数')->options([1 => '一期', 2 => '二期', 3 => '三期', 4 => '四期', 5 => '五期', 6 => '半年', 12 => '一年', 18 => '一年半', 24 => '两年', 36 => '三年'])->rules('required');
             $form->text('interest_rate', '日利息')->rules('required|numeric|min:0.0001');
-            $form->text('price', '服务费')->rules('required|numeric|min:0.01');
+            $form->text('interest_fine_rate', '逾期日利息')->rules('required|numeric|min:0.0001');
+            $form->text('price', '服务费')->rules('required|numeric|min:0');
             $form->text('stock', '剩余库存')->rules('required|integer|min:0');
             $form->switch('on_sale', '是否上线')->default(1);
         });
