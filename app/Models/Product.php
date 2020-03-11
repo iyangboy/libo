@@ -35,4 +35,11 @@ class Product extends Model
     {
         return $this->hasMany(ProductSpecification::class, 'product_id');
     }
+
+    // 分期选项
+    public function productByStage()
+    {
+        return $this->hasMany(ProductByStage::class, 'product_id');
+    }
+
 }
