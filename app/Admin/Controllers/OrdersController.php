@@ -90,6 +90,23 @@ class OrdersController extends AdminController
         $grid->column('created_at', '创建时间');
         // $grid->column('updated_at', '更新时间');
 
+        // 去掉导出
+        $grid->disableExport();
+
+        if (!\Admin::user()->can('set-orders')) {
+            $grid->tools(function ($tools) {
+                // 禁用批量删除按钮
+                $tools->batch(function ($batch) {
+                    $batch->disableDelete();
+                });
+            });
+            // 去掉新建
+            $grid->disableCreateButton();
+
+            // 关闭操作
+            $grid->disableActions();
+        }
+
         $grid->actions(function ($actions) {
             // 检查权限
             // if (Permission::check('set-sources')) {
