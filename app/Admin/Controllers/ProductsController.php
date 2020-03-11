@@ -58,7 +58,25 @@ class ProductsController extends AdminController
             return '<span class="label label-success">' . $mini_amount . ' - ' . $loan_limit . '</span> ';
         });
         $grid->column('interest_rate', '日利率');
+        $grid->column('by_stage', '分期选项')->modal('规格信息', function ($model) {
+            $by_stages = $model->productByStage()->get()->map(function ($comment) {
+                return $comment->only(['id', 'value', 'interest_rate', 'stock', 'on_sale', 'price']);
+            });
+
+            $comments = [];
+            foreach ($by_stages as $key => $value) {
+                $comments[$key]['id'] = $value['id'];
+                $comments[$key]['value'] = $value['value'];
+                $comments[$key]['interest_rate'] = $value['interest_rate'];
+                $comments[$key]['stock'] = $value['stock'];
+                $comments[$key]['on_sale'] = $value['on_sale'] ? '是' : '否';
+                $comments[$key]['price'] = $value['price'];
+            }
+
+            return new Table(['ID','分期','日利息', '库存', '是否上线', '服务费（￥）'], $comments);
+        });
         // $grid->column('specification', '规格');
+        /*
         $grid->column('sku', '规格')->modal('规格信息', function ($model) {
             $skus = $model->productSkus()->get()->map(function ($comment) {
                 return $comment->only(['id', 'specification', 'interest_rate', 'stock', 'on_sale', 'price']);
@@ -87,6 +105,7 @@ class ProductsController extends AdminController
 
             return new Table($tabel_th, $comments);
         });
+        */
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '更新时间');
 
@@ -180,6 +199,16 @@ class ProductsController extends AdminController
         // $form->textarea('specification', '规格');
         // $form->textarea('description', '描述')->rules('required|min:10');
         $form->quill('description', '描述')->rules('required');
+
+        // 直接添加一对多的关联模型
+        $form->hasMany('productByStage', '分期选项', function (Form\NestedForm $form) {
+            $form->hidden('type')->default('by_stage');
+            $form->text('value', '分期数')->rules('required');
+            $form->text('interest_rate', '日利息')->rules('required|numeric|min:0.0001');
+            $form->text('price', '服务费')->rules('required|numeric|min:0.01');
+            $form->text('stock', '剩余库存')->rules('required|integer|min:0');
+            $form->switch('on_sale', '是否上线')->default(1);
+        });
 
         // 直接添加一对多的关联模型
         // $form->hasMany('productSpecification', '规格', function (Form\NestedForm $form) {
