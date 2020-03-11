@@ -2,7 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+use App\Exceptions\InvalidRequestException;
+use App\Models\Installment;
 use App\Models\Order;
+use Carbon\Carbon;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -150,4 +153,60 @@ class OrdersController extends AdminController
 
         return $form;
     }
+
+    // 分期处理
+    public function modeInstallment(Order $order, $count = 1)
+    {
+        // 判断订单是否属于当前用户
+        // $this->authorize('own', $order);
+        // 订单已支付或者已关闭
+        // if ($order->paid_at || $order->closed) {
+        //     throw new InvalidRequestException('订单状态不正确');
+        // }
+
+        // 删除同一笔商品订单发起过其他的状态是未支付的分期付款，避免同一笔商品订单有多个分期付款
+        Installment::query()
+            ->where('order_id', $order->id)
+            ->where('status', Installment::STATUS_PENDING)
+            ->delete();
+
+        // 创建一个新的分期付款对象
+        $installment = new Installment([
+            // 总本金即为商品订单总金额
+            'total_amount' => $order->loan_amount,
+            // 分期期数
+            'count'        => $count,
+            // 从配置文件中读取相应期数的费率
+            'fee_rate'     => $order->product->interest_rate ?? 0.0001,
+            // 从配置文件中读取当期逾期费率
+            'fine_rate'    => $order->product->interest_fine_rate ?? 0.0001,
+        ]);
+        $installment->user()->associate($order->user());
+        $installment->order()->associate($order);
+        $installment->save();
+        // 第一期的还款截止日期为明天凌晨 0 点
+        $dueDate = Carbon::tomorrow();
+        // 计算每一期的本金
+        $base = big_number($order->loan_amount)->divide($count)->getValue();
+        // 计算每一期的手续费
+        $fee = big_number($base)->multiply($installment->fee_rate)->divide(100)->getValue();
+        // 根据用户选择的还款期数，创建对应数量的还款计划
+        for ($i = 0; $i < $count; $i++) {
+            // 最后一期的本金需要用总本金减去前面几期的本金
+            if ($i === $count - 1) {
+                $base = big_number($order->loan_amount)->subtract(big_number($base)->multiply($count - 1));
+            }
+            $installment->items()->create([
+                'sequence' => $i,
+                'base'     => $base,
+                'fee'      => $fee,
+                'due_date' => $dueDate,
+            ]);
+            // 还款截止日期加 30 天
+            $dueDate = $dueDate->copy()->addDays(30);
+        }
+
+        return $installment;
+    }
+
 }

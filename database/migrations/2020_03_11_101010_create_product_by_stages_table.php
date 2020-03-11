@@ -20,6 +20,7 @@ class CreateProductByStagesTable extends Migration
             $table->string('value')->comment('规格值');
             $table->decimal('price', 10, 2)->comment('服务费');
             $table->decimal('interest_rate', 10, 4)->comment('日利率');
+            $table->decimal('interest_fine_rate', 10, 4)->comment('逾期日利率');
             $table->unsignedInteger('stock')->default(0)->comment('库存');
             $table->boolean('on_sale')->default(true)->comment('是否上线');
 
