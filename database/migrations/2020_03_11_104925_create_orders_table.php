@@ -27,11 +27,11 @@ class CreateOrdersTable extends Migration
             $table->dateTime('paid_at')->nullable()->comment('支付时间');
             $table->string('payment_method')->nullable()->comment('支付方式');
             $table->string('payment_no')->nullable()->comment('支付平台订单号');
-            $table->string('refund_status')->comment('退款状态');
+            $table->string('refund_status')->default(\App\Models\Order::REFUND_STATUS_PENDING)->comment('退款状态');
             $table->string('refund_no')->unique()->nullable()->comment('退款单号');
             $table->boolean('closed')->default(false)->comment('订单是否已关闭');
             $table->boolean('reviewed')->default(false)->comment('订单是否已评价');
-            $table->string('ship_status')->comment('订单状态');
+            $table->string('ship_status')->default(\App\Models\Order::SHIP_STATUS_PENDING)->comment('订单状态');
             $table->text('ship_data')->nullable()->comment('JSON订单数据');
             $table->text('extra')->nullable()->comment('其他额外的数据');
             $table->timestamps();
