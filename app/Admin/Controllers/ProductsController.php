@@ -52,7 +52,11 @@ class ProductsController extends AdminController
         $grid->column('sold_count', '销量');
         // $grid->column('review_count', '评价数量');
         $grid->column('price', '服务费');
-        $grid->column('loan_limit', '贷款限额');
+        $grid->column('loan_limit', '贷款限额')->display(function () {
+            $mini_amount = number_format($this->mini_amount, 2, '.', ',');
+            $loan_limit = number_format($this->loan_limit, 2, '.', ',');
+            return '<span class="label label-success">' . $mini_amount . ' - ' . $loan_limit . '</span> ';
+        });
         $grid->column('interest_rate', '日利率');
         // $grid->column('specification', '规格');
         $grid->column('sku', '规格')->modal('规格信息', function ($model) {
@@ -141,7 +145,8 @@ class ProductsController extends AdminController
         $show->field('sold_count', '销量');
         // $show->field('review_count', '评价数量');
         $show->field('price', '服务费');
-        $show->field('loan_limit', '贷款限额');
+        $show->field('mini_amount', '贷款限额(最小值)');
+        $show->field('loan_limit', '贷款限额(最大值)');
         $show->field('interest_rate', '日利率');
         $show->field('specification', '规格');
         $show->field('created_at', '创建时间');
@@ -168,7 +173,8 @@ class ProductsController extends AdminController
         // $form->decimal('rating', '评分')->default(5.00);
         // $form->number('sold_count', '销量');
         // $form->number('review_count', '评价数量');
-        $form->decimal('loan_limit', '贷款限额');
+        $form->decimal('mini_amount', '贷款限额(最小值)');
+        $form->decimal('loan_limit', '贷款限额(最大值)');
         $form->decimal('interest_rate', '日利率');
         $form->decimal('price', '服务费');
         // $form->textarea('specification', '规格');
