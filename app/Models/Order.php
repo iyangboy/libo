@@ -67,16 +67,6 @@ class Order extends Model
         });
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function items()
-    {
-        return $this->hasMany(OrderItem::class);
-    }
-
     public static function findAvailableNo()
     {
         // 订单流水号前缀
@@ -92,5 +82,20 @@ class Order extends Model
         \Log::warning('find order no failed');
 
         return false;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // public function items()
+    // {
+    //     return $this->hasMany(OrderItem::class);
+    // }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

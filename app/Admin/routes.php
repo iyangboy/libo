@@ -41,4 +41,7 @@ Route::group([
 
     // 商品
     $router->resource('products', 'ProductsController');
+
+    // 订单
+    $router->resource('orders', 'OrdersController');
 });
