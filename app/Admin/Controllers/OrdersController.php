@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controllers;
 
+use \Admin;
+use App\Admin\Actions\Orders\SetInstallment;
 use App\Exceptions\InvalidRequestException;
 use App\Models\Installment;
 use App\Models\Order;
@@ -87,6 +89,18 @@ class OrdersController extends AdminController
         // $grid->column('extra', __('Extra'));
         $grid->column('created_at', '创建时间');
         // $grid->column('updated_at', '更新时间');
+
+        $grid->actions(function ($actions) {
+            // 检查权限
+            // if (Permission::check('set-sources')) {
+            //
+            //     $actions->add(new SetSources);
+            // }
+            if (\Admin::user()->can('set-orders')) {
+                // 设置来源信息
+                $actions->add(new SetInstallment);
+            }
+        });
 
         return $grid;
     }

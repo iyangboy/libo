@@ -41,6 +41,8 @@ Route::group([
 
     // 商品
     $router->resource('products', 'ProductsController');
+    // 分期Select
+    $router->get('select_products_by_stages/{product_id}', 'ProductsController@productsByStage')->name('select_products_by_stages');
 
     // 订单
     $router->resource('orders', 'OrdersController');

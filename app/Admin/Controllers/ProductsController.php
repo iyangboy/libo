@@ -73,7 +73,7 @@ class ProductsController extends AdminController
                 $comments[$key]['price'] = $value['price'];
             }
 
-            return new Table(['ID','分期','日利息', '库存', '是否上线', '服务费（￥）'], $comments);
+            return new Table(['ID', '分期', '日利息', '库存', '是否上线', '服务费（￥）'], $comments);
         });
         // $grid->column('specification', '规格');
         /*
@@ -235,5 +235,21 @@ class ProductsController extends AdminController
         });
 
         return $form;
+    }
+
+    // 获取产品分期选项
+    public function productsByStage($product_id)
+    {
+        $product = Product::with('productByStage')->find($product_id);
+
+        $select = [];
+        //dd($series->toArray());
+        foreach ($product->productByStage as $key => $value) {
+            if ($value->on_sale) {
+                $select[$key]['id'] = $value->id;
+                $select[$key]['text'] = $value->value . ' 期';
+            }
+        }
+        return $select;
     }
 }
