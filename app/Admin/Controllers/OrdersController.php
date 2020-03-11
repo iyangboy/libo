@@ -39,13 +39,47 @@ class OrdersController extends AdminController
         $grid->column('by_stage', '分期数');
         $grid->column('remark', '备注');
         $grid->column('paid_at', '支付时间');
-        $grid->column('payment_method', '支付方式');
+        $grid->column('payment_method', '收款方式')->display(function () {
+            $payment_method = $this->payment_method ?? '';
+            $text = '';
+            switch ($payment_method) {
+                case 'alipay':
+                    $text .= '<span class="label label-danger">支付宝</span> ';
+                    break;
+                case 'weixin':
+                    $text .= '<span class="label label-warning">微信</span> ';
+                    break;
+                case 'brank':
+                    $text .= '<span class="label label-success">银联</span> ';
+                    break;
+            }
+            return $text;
+        });
         $grid->column('payment_no', '支付编号');
         // $grid->column('refund_status', '退款状态');
         // $grid->column('refund_no', '退款编号');
         $grid->column('closed', '是否关闭');
         // $grid->column('reviewed', __('Reviewed'));
-        $grid->column('ship_status', '订单状态');
+        $grid->column('ship_status', '状态')->display(function () {
+            $status = $this->ship_status ?? '';
+            $text = '';
+            switch ($status) {
+                case 'pending':
+                    $text .= '<span class="label label-warning">待处理</span> ';
+                    break;
+                case 'failed':
+                    $text .= '<span class="label label-danger">处理失败</span> ';
+                    break;
+                case 'success':
+                    $text .= '<span class="label label-success">处理成功</span> ';
+                    break;
+            }
+            return $text;
+        })->filter([
+            'pending' => '待支付',
+            'failed' => '支付失败',
+            'success' => '支付成功',
+        ]);
         // $grid->column('ship_data', __('Ship data'));
         // $grid->column('extra', __('Extra'));
         $grid->column('created_at', '创建时间');
