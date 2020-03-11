@@ -117,6 +117,10 @@ Route::prefix('v1')
                     // 当前登录用户权限
                     Route::get('user/permissions', 'PermissionsController@index')
                         ->name('user.permissions.index');
+
+                    // 创建分期接口
+                    Route::post('payment/{order}/installment', 'PaymentController@payByInstallment')
+                        ->name('payment.installment');
                 });
             });
     });
