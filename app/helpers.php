@@ -50,3 +50,9 @@ function model_plural_name($model)
     // 获取子串的复数形式，例如：传参 `user` 会得到 `users`
     return Str::plural($snake_case_name);
 }
+
+// 默认的精度为小数点后两位
+function big_number($number, $scale = 2)
+{
+    return new \Moontoast\Math\BigNumber($number, $scale);
+}
