@@ -28,6 +28,10 @@ class EventServiceProvider extends ServiceProvider
         \Illuminate\Auth\Events\Verified::class => [
             \App\Listeners\EmailVerified::class,
         ],
+        // 订单支付成功-销量自增
+        \App\Events\OrderPaid::class => [
+            \App\Listeners\UpdateProductSoldCount::class,
+        ],
     ];
 
     /**
