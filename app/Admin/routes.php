@@ -46,4 +46,8 @@ Route::group([
 
     // 订单
     $router->resource('orders', 'OrdersController');
+
+    // 分期列表
+    $router->resource('installments', 'InstallmentsController');
+    $router->resource('installment-items', 'InstallmentItemsController');
 });
