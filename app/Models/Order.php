@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    // 商品列表选项-分期
+    // 订单列表
     protected $table = 'orders';
 
     protected $primaryKey = 'id';
