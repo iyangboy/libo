@@ -118,9 +118,19 @@ Route::prefix('v1')
                     Route::get('user/permissions', 'PermissionsController@index')
                         ->name('user.permissions.index');
 
+                    // 支付宝支付
+                    Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')
+                        ->name('payment.alipay');
+
                     // 创建分期接口
                     Route::post('payment/{order}/installment', 'PaymentController@payByInstallment')
                         ->name('payment.installment');
                 });
             });
+
+        // 支付宝前端支付回调
+        Route::get('payment/alipay/return', 'PaymentController@alipayReturn')
+            ->name('payment.alipay.return');
+        // 支付宝后端支付回调
+        Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
     });
