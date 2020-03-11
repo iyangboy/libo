@@ -26,6 +26,7 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('sold_count')->default(0)->comment('销量');
             $table->unsignedInteger('review_count')->default(0)->comment('评价数量');
             $table->decimal('price', 10, 2)->comment('SKU 最低服务费');
+            $table->decimal('mini_amount', 10, 2)->default(0)->comment('最低贷款限额');
             $table->decimal('loan_limit', 10, 2)->comment('贷款限额');
             $table->decimal('interest_rate', 10, 4)->comment('日利率');
             $table->text('specification')->nullable()->comment('规格');
