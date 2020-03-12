@@ -42,6 +42,18 @@ class RegisterController extends Controller
             'source_id' => $source_id ?? 1, // 来源()
         ]);
 
-        return new PrivateUserResource($user);
+        // return new PrivateUserResource($user);
+
+        return response()->json([
+            'success' => ['注册成功'],
+            'data'    => new PrivateUserResource($user),
+            'meta' => [
+                'access_token' => \Auth::guard('api')->login($user),
+                'token_type' => 'Bearer',
+                'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+            ]
+        ], 201);
+
+
     }
 }
