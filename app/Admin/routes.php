@@ -50,4 +50,7 @@ Route::group([
     // 分期列表
     $router->resource('installments', 'InstallmentsController');
     $router->resource('installment-items', 'InstallmentItemsController');
+
+    // 支持银行设置
+    $router->resource('bank-codes', 'BankCodesController');
 });
