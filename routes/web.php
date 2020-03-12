@@ -167,6 +167,9 @@ Route::get('/test-product-specification', function () {
 });
 
 Route::get('test-signing-sms', 'PgwPayController@signingSMS');
+Route::get('test-signing', 'PgwPayController@signing');
+Route::get('test-agreement-apyment', 'PgwPayController@agreementPayment');
+Route::get('test-agreement-apyment-verification', 'PgwPayController@agreementPaymentVerification');
 
 Route::get('alipay', function () {
     return app('alipay')->web([

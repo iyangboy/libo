@@ -19,6 +19,7 @@ class PgwPayController extends Controller
     // 签约发短信
     public function signingSMS()
     {
+        dump('签约发短信');
 
         $url = $this->h_url . '/quickpay/identifyauth';
 
@@ -26,7 +27,7 @@ class PgwPayController extends Controller
         $params = [
             'version'     => $this->version,
             'merchantId'  => $this->merchantId,
-            'merOrderId'  => date('YmdHis') . '01',      //商户订单号
+            'merOrderId'  => date('YmdHis') . 101,      //商户订单号
             'organCode'   => '4000400008',               //银行机构号
             'organName'   => '建设银行',                  //银行名称
             'reqDate'     => date('Ymd H:i:s'),          //请求时间
@@ -43,7 +44,7 @@ class PgwPayController extends Controller
         ];
 
         $CSReq = 'QIAReq';
-        $MessageId = date('YmdHis') . '02';
+        $MessageId = date('YmdHis') . 102;
 
         $rs = $this->getResult($url, $params, $CSReq, $MessageId);
         dd($rs);
@@ -64,24 +65,31 @@ class PgwPayController extends Controller
     // 签约
     public function signing(Request $request)
     {
+        dump('签约');
         $url = $this->h_url . '/quickpay/sign';
         $user = [];
 
-        $smsVerifyCode = $request->sms_verify_code ?? '';
+        $merOrderId = '2020031214202201';
+
+        $smsSendNo = '20200312010000017496';
+        $smsVerifyCode = $request->sms_verify_code ?? '123456';
 
         $params = [
             'version'         => $this->version,
             'merchantId'      => $this->merchantId,
-            'merOrderId'      => date('YmdH:i:s') . 111111,
+            'merOrderId'      => $merOrderId,
             'reqDate'         => date('Ymd H:i:s'),
             'cvv2'            => $this->rsa_encryption($user->cvv2 ?? ''),
             'validDate'       => $this->rsa_encryption($user->valid_date ?? ''),
-            'smsSendNo'       => $user->smsSendNo ?? '',
+            'smsSendNo'       => $smsSendNo ?? '',
             'smsVerifyCode'   => $smsVerifyCode,
-            'sign'            => '',
         ];
 
-        $rs = $this->getResult($url, $params);
+        $CSReq = 'SIReq';
+        $MessageId = date('YmdHis') . 202;
+
+        $rs = $this->getResult($url, $params, $CSReq, $MessageId);
+        dd($rs);
         $data = [
             'merchantId' => $rs->merchantId,
             'merOrderId' => $rs->merOrderId,
@@ -97,37 +105,44 @@ class PgwPayController extends Controller
     // 协议支付
     public function agreementPayment(Request $request)
     {
+        dump('协议支付');
+
         $url = $this->h_url . '/quickpay/pay';
         $user = [];
 
-        $smsVerifyCode = $request->sms_verify_code ?? '';
+        $smsVerifyCode = $request->sms_verify_code ?? '123456';
 
         // 支付金额
         $amount = 100.00;
         // 签约协议号 // 签约返回值
-        $protocolId = '';
+        $protocolId = '202003120400009412';
+        $name = '杨万里';
+        $account = '6217002870034756701';
+
+        // 订单详情
+        $orderDesc = '2#2#商品1简称^100.00^1#商品2简称^50.00^20';
 
         $params = [
             'version'         => $this->version,
             'merchantId'      => $this->merchantId,
-            'payOrderId'      => date('YmdH:i:s') . 111111,
+            'payOrderId'      => date('YmdHis') . 301,
             'reqDate'         => date('Ymd H:i:s'),
             'amount'          => $amount,
             'protocolId'      => $protocolId,
             'name'            => $name ?? '',     // 用户名
             'account'         => $account ?? '',  // 银行账号
             'payType'         => 120014,          // 支付场景 - 信贷发放
-            'orderDesc'       => '',              // 订单详情
-            'subMercId'       => '',              // 二级商户号(二级商户交易时必填)
-            'subMercName'     => '',              // 二级商户简称(二级商户交易时必填)
+            'orderDesc'       => $orderDesc,      // 订单详情
+            // 'subMercId'       => '',              // 二级商户号(二级商户交易时必填)
+            // 'subMercName'     => '',              // 二级商户简称(二级商户交易时必填)
             'cvv2'            => $this->rsa_encryption($user->cvv2 ?? ''),
             'validDate'       => $this->rsa_encryption($user->valid_date ?? ''),
-            'smsSendNo'       => $user->smsSendNo ?? '',
-            'smsVerifyCode'   => $smsVerifyCode,
-            'sign'            => '',
         ];
 
-        $rs = $this->getResult($url, $params);
+        $CSReq = 'QPReq';
+        $MessageId = date('YmdHis') . 302;
+
+        $rs = $this->getResult($url, $params, $CSReq, $MessageId);
         $data = [
             'merchantId' => $rs->merchantId,
             'payOrderId' => $rs->payOrderId,
@@ -148,33 +163,38 @@ class PgwPayController extends Controller
     // 协议支付 - 短信验证  QPReq
     public function agreementPaymentVerification(Request $request)
     {
+        dump('协议支付 - 短信验证');
+
         $url = $this->h_url . '/quickpay/smsvalidate';
         $user = [];
+        $payOrderId = '20200312144846301';
 
-        $smsSendNo = $request->sms_send_no ?? '';
+        $smsSendNo = '200312040000120512';
         // 短信验证码
-        $smsVerifyCode = $request->sms_verify_code ?? '';
+        $smsVerifyCode = $request->sms_verify_code ?? '123456';
 
         // 支付金额
         $amount = 100.00;
         // 签约协议号 // 签约返回值
-        $protocolId = '';
+        $protocolId = '202003120400009412';
 
         $params = [
             'version'         => $this->version,
             'merchantId'      => $this->merchantId,
-            'payOrderId'      => date('YmdH:i:s') . 111111,
+            'payOrderId'      => $payOrderId,
             'reqDate'         => date('Ymd H:i:s'),
             'amount'          => $amount,
             'protocolId'      => $protocolId,
-            'smsSendNo'       => $smsSendNo ?? '',      // 短信发送编号
+            'smsSendNo'       => $smsSendNo,      // 短信发送编号
             'smsVerifyCode'   => $smsVerifyCode ?? '',  // 短信验证码
             'cvv2'            => $this->rsa_encryption($user->cvv2 ?? ''),
             'validDate'       => $this->rsa_encryption($user->valid_date ?? ''),
-            'sign'            => '',
         ];
 
-        $rs = $this->getResult($url, $params);
+        $CSReq = 'QPReq';
+        $MessageId = date('YmdHis') . 402;
+
+        $rs = $this->getResult($url, $params, $CSReq, $MessageId);
         $data = [
             'merchantId' => $rs->merchantId,
             'payOrderId' => $rs->payOrderId,
@@ -300,8 +320,8 @@ class PgwPayController extends Controller
         // dd($result_mb);
 
         $obj = simplexml_load_string($result, "SimpleXMLElement", LIBXML_NOCDATA);
-        dump($obj);
-        dump($obj->Message->CSReq->merchantId);
+        // dump($obj);
+        // dump($obj->Message->CSReq->merchantId);
         $data = json_decode(json_encode($obj), true);
 
         dump($data);
