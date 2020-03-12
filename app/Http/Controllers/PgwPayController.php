@@ -42,7 +42,7 @@ class PgwPayController extends Controller
             'validDate'   =>  $this->rsa_encryption($user->valid_date ?? ''),
         ];
 
-        $CSReq = 'QIARes';
+        $CSReq = 'QIAReq';
         $MessageId = date('YmdHis') . '02';
 
         $rs = $this->getResult($url, $params, $CSReq, $MessageId);
