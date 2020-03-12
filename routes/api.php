@@ -13,11 +13,11 @@ use Illuminate\Http\Request;
 |
  */
 
-Route::group(['prefix' => 'auth', 'namespace' => 'Api'], function () {
-    Route::post('register', 'Auth\RegisterController@register');
-    Route::post('login', 'Auth\LoginController@login');
-    Route::get('me', 'Auth\MeController@me');
-});
+// Route::group(['prefix' => 'auth', 'namespace' => 'Api'], function () {
+//     Route::post('register', 'Auth\RegisterController@register');
+//     Route::post('login', 'Auth\LoginController@login');
+//     Route::get('me', 'Auth\MeController@me');
+// });
 
 Route::prefix('v1')
     ->namespace('Api')
@@ -27,6 +27,13 @@ Route::prefix('v1')
 
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
             ->group(function () {
+
+                Route::group(['prefix' => 'auth'], function () {
+                    Route::post('register', 'Auth\RegisterController@register');
+                    Route::post('login', 'Auth\LoginController@login');
+                    Route::get('me', 'Auth\MeController@me');
+                });
+
                 // 图片验证码
                 Route::post('captchas', 'CaptchasController@store')
                     ->name('captchas.store');
