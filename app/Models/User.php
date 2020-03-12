@@ -125,6 +125,17 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
         return $this->hasMany(UserBankCard::class, 'user_id');
     }
 
+    // 用户绑定银行卡
+    public function userBankCard()
+    {
+        return $this->hasOne(UserBankCard::class, 'user_id')->orderBy('id', 'desc');
+    }
+    // 用户已签约银行卡
+    public function userBankCardProtocol()
+    {
+        return $this->hasOne(UserBankCard::class, 'user_id')->where('protocol_id', '>', 0)->orderBy('id', 'desc');
+    }
+
     // 用户等级
     public function grade()
     {

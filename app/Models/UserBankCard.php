@@ -18,4 +18,10 @@ class UserBankCard extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    // 所属银行
+    public function bankCode()
+    {
+        return $this->belongsTo(BankCode::class, 'bank_code_id');
+    }
 }

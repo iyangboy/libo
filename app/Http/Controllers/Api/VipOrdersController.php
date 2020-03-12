@@ -81,11 +81,11 @@ class VipOrdersController extends Controller
         $order->user_id      = $user_id;
         $order->vip_id       = $memberProduct->id;
         $order->total_amount = $memberProduct->price;
-        $order->user_id = $user_id;
-        $order->user_id = $user_id;
         $order->save();
 
-        return $memberProduct;
-        return $user_id;
+        return response()->json([
+            'success' => ['订单创建成功'],
+            'data'    => $order
+        ], 201);
     }
 }

@@ -13,6 +13,11 @@ class PgwPayLog extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'params' => 'array',
+        'result' => 'array',
+    ];
+
     // 所属订单
     public function vipOrder()
     {

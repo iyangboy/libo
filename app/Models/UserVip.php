@@ -31,6 +31,12 @@ class UserVip extends Model
         self::STATUS_SUCCESS   => '支付成功',
     ];
 
+    const PAYMENT_METHOD_ALI_PAY    = 'ali_pay';       // 阿里支付
+    const PAYMENT_METHOD_WECHAT_PAY = 'wechat_pay';    // 微信支付
+    const PAYMENT_METHOD_PGW_PAY    = 'pgw_pay';       // 迅联支付
+
+
+
     protected static function boot()
     {
         parent::boot();

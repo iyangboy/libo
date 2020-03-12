@@ -142,6 +142,15 @@ Route::prefix('v1')
                     Route::post('set_user_bank','Auth\MeController@setBank');
                     // 购买vip
                     Route::post('purchase_vip/{vip_id}','VipOrdersController@purchaseVip');
+
+                    // 支付-签约发短信
+                    Route::post('pgw-signing-sms/{vip_order_id}', 'PgwPay\PgwPayController@signingSMS');
+                    // 支付-签约
+                    Route::post('pgw-signing/{log_id}', 'PgwPay\PgwPayController@signing');
+                    // 协议支付
+                    Route::post('pgw-agreement-payment/{vip_order_id}', 'PgwPay\PgwPayController@agreementPayment');
+                    // 协议支付-短信验证
+                    Route::post('pgw-agreement-payment-verification/{log_id}', 'PgwPay\PgwPayController@agreementPaymentVerification');
                 });
             });
 

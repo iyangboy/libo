@@ -39,14 +39,14 @@ class UserVipOrdersController extends AdminController
             $payment_method = $this->payment_method ?? '';
             $text = '';
             switch ($payment_method) {
-                case 'alipay':
-                    $text .= '<span class="label label-danger">支付宝</span> ';
+                case 'ali_pay':
+                    $text .= '<span class="label label-danger">支付宝支付</span> ';
                     break;
-                case 'weixin':
-                    $text .= '<span class="label label-warning">微信</span> ';
+                case 'wechat_pay':
+                    $text .= '<span class="label label-warning">微信支付</span> ';
                     break;
-                case 'brank':
-                    $text .= '<span class="label label-success">银联</span> ';
+                case 'pgw_pay':
+                    $text .= '<span class="label label-success">迅联支付</span> ';
                     break;
             }
             return $text;
@@ -140,7 +140,7 @@ class UserVipOrdersController extends AdminController
         $form->decimal('total_amount', '支付价格');
         $form->textarea('remark', '备注');
         $form->datetime('paid_at', '支付时间')->default(date('Y-m-d H:i:s'));
-        $form->select('payment_method', '支付类型')->options(['alipay' => '支付宝', 'weixin' => '微信', 'brank' => '银联']);
+        $form->select('payment_method', '支付类型')->options(['ali_pay' => '支付宝', 'wechat_pay' => '微信', 'pgw_pay' => '迅联支付']);
         $form->text('payment_no', '支付编号');
         $form->switch('closed', '知否关闭');
         $form->select('status', '状态')->options(['pending' => '待支付', 'failed' => '支付失败', 'success' => '支付成功'])->default('pending');
