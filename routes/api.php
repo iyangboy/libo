@@ -140,6 +140,8 @@ Route::prefix('v1')
                     Route::post('set_user_info','Auth\MeController@setUserInfo');
                     // 绑定银行卡
                     Route::post('set_user_bank','Auth\MeController@setBank');
+                    // 购买vip
+                    Route::post('purchase_vip/{vip_id}','VipOrdersController@purchaseVip');
                 });
             });
 
