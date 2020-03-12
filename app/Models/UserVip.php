@@ -77,4 +77,10 @@ class UserVip extends Model
         return $this->belongsTo(MemberProduct::class, 'vip_id');
     }
 
+    // 支付记录
+    public function pgwPayLog()
+    {
+        return $this->belongsTo(PgwPayLog::class, 'vip_order_id');
+    }
+
 }
