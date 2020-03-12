@@ -26,16 +26,16 @@ class PgwPayController extends Controller
         $params = [
             'version'     => $this->version,
             'merchantId'  => $this->merchantId,
-            'merOrderId'  => date('YmdHis') . '01',  //商户订单号
-            'organCode'   => '4001200007',               //银行机构号
-            'organName'   => '招商银行',                  //银行名称
+            'merOrderId'  => date('YmdHis') . '01',      //商户订单号
+            'organCode'   => '4000400008',               //银行机构号
+            'organName'   => '建设银行',                  //银行名称
             'reqDate'     => date('Ymd H:i:s'),          //请求时间
-            'name'        => '黄xx',                     //姓名
-            'account'     => '6225885545565568',         //银行账号
+            'name'        => '杨万里',                     //姓名
+            'account'     => '6217002870034756701',         //银行账号
             'accountType' => '90',                       //账号类型
             'idType'      => '10',                       //证件类型
-            'idCode'      => '110101199003071735',       //证件号
-            'mobile'      => '13786838558',              //手机号
+            'idCode'      => '420117199304023917',       //证件号
+            'mobile'      => '13207172090',              //手机号
             //加密后的CVV2,用sdk.rsa_encryption加密
             'cvv2'        =>  $this->rsa_encryption($user->cvv2 ?? ''),
             //加密后的有效期,用sdk.rsa_encryption加密
@@ -47,6 +47,18 @@ class PgwPayController extends Controller
 
         $rs = $this->getResult($url, $params, $CSReq, $MessageId);
         dd($rs);
+
+        $data = [
+            'merchantId' => $rs->merchantId,
+            'merOrderId' => $rs->merOrderId,
+            'respDate'   => $rs->respDate,
+            'retFlag'    => $rs->retFlag,     // 交易结果 T-成功，F-失败，P-未明
+            'resultCode' => $rs->resultCode,  // 结果代码
+            'resultMsg'  => $rs->resultMsg,   // 结果描述
+            'smsSendNo'  => $rs->smsSendNo,   // 短信发送编号
+            'protocolId' => $rs->protocolId,  // 协议号
+            'sign'       => $rs->sign,
+        ];
     }
 
     // 签约
@@ -267,9 +279,6 @@ class PgwPayController extends Controller
     {
         $sign_str = $this->getSign($params);
 
-        // $MessageId = '';
-        // $CSReq = '';
-
         $append_xml = '';
         $append_xml .= '<EctData>' . "\n";
         $append_xml .= '<Message id="' . $MessageId . '">' . "\n";
@@ -284,24 +293,20 @@ class PgwPayController extends Controller
         $append_xml .= '</Message>' . "\n";
         $append_xml .= '</EctData>' . "\n";
         dump($append_xml);
-        // dd($append_xml);
-//         $append_xml = '';
-//         foreach ($params as $k => $v) $append_xml .= "<{$k}>{$v}</{$k}>";
-//         $post_data = <<<EOF
-// <EctData>
-//     <Message id="201510280008881">
-//         <CSReq id="IAReq ">
-// 		    {$append_xml}
-// 		    <sign>{$sign_str}</sign>
-// 		</CSReq>
-//     </Message>
-// </EctData>
-// EOF;
-        // dump($post_data);
+
         $result = $this->curl_post_https($url, $append_xml);
-        dd($result);
+        dump($result);
         // $result_mb = mb_convert_encoding($result, 'GBK', 'UTF-8,GBK,GB2312,BIG5');
         // dd($result_mb);
+
+        $obj = simplexml_load_string($result, "SimpleXMLElement", LIBXML_NOCDATA);
+        dump($obj);
+        dump($obj->Message->CSReq->merchantId);
+        $data = json_decode(json_encode($obj), true);
+
+        dump($data);
+        // dump($data['Message']['CSRes']['smsSendNo']);
+        dd(1);
 
         //验签
         $xml = simplexml_load_string($result);
