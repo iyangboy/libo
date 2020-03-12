@@ -71,7 +71,7 @@ class UserVip extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // 所属用户
+    // 所属VIP产品
     public function vipProduct()
     {
         return $this->belongsTo(MemberProduct::class, 'vip_id');

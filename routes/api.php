@@ -132,6 +132,12 @@ Route::prefix('v1')
                     // 创建分期接口
                     Route::post('payment/{order}/installment', 'PaymentController@payByInstallment')
                         ->name('payment.installment');
+
+
+                    // 接口 绑定身份证
+                    Route::post('user_set_id_card','Auth\MeController@SetIdCard');
+                    // 设置用户基本信息
+                    Route::post('set_user_info','Auth\MeController@setUserInfo');
                 });
             });
 

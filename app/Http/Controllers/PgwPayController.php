@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidRequestException;
+use App\Models\UserVip;
 use Illuminate\Http\Request;
 
 class PgwPayController extends Controller
@@ -17,9 +18,14 @@ class PgwPayController extends Controller
     public $merchantId = '000010520';
 
     // 签约发短信
-    public function signingSMS()
+    public function signingSMS(Request $request)
     {
         dump('签约发短信');
+
+        $userVip = UserVip::with(['user', 'vipProduct'])->find($id);
+
+        dd($userVip);
+
 
         $url = $this->h_url . '/quickpay/identifyauth';
 
