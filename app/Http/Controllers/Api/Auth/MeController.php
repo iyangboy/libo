@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\UserSetBankRequest;
 use App\Http\Requests\Api\UserSetIdCardRequest;
 use App\Http\Requests\Api\UserSetUserInfoRequest;
 use App\Http\Resources\PrivateUserResource;
+use App\Models\UserBankCard;
 use App\Models\UserInfo;
 
 class MeController extends Controller
@@ -58,6 +60,30 @@ class MeController extends Controller
                 'social_insurance'  => $request->social_insurance,
                 'accumulation_fund' => $request->accumulation_fund,
                 'monthly_pay'       => $request->monthly_pay,
+            ]
+        );
+        return response()->json([
+            'success' => ['设置成功'],
+            'data'    => $info
+        ], 200);
+    }
+
+    // 绑定银行卡
+    public function setBank(UserSetBankRequest $request)
+    {
+        $user_id = $request->user()->id;
+
+        $info = UserBankCard::updateOrCreate(
+            [
+                'user_id'     => $user_id,
+                'card_number' => $request->card_number,
+            ],
+            [
+                'user_name'      => $request->user_name,
+                'bank_name'      => $request->bank_name ?? '',
+                'phone'          => $request->phone,
+                'bank_code_id'   => $request->bank_code_id,
+                'address'        => $request->address ?? '',
             ]
         );
         return response()->json([

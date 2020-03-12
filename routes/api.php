@@ -138,6 +138,8 @@ Route::prefix('v1')
                     Route::post('user_set_id_card','Auth\MeController@SetIdCard');
                     // 设置用户基本信息
                     Route::post('set_user_info','Auth\MeController@setUserInfo');
+                    // 绑定银行卡
+                    Route::post('set_user_bank','Auth\MeController@setBank');
                 });
             });
 
