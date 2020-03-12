@@ -166,7 +166,7 @@ Route::get('/test-product-specification', function () {
     dd($product);
 });
 
-Route::get('test-pgw-pay', 'PgwPayController@testPay');
+Route::get('test-signing-sms', 'PgwPayController@signingSMS');
 
 Route::get('alipay', function () {
     return app('alipay')->web([

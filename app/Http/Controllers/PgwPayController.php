@@ -14,7 +14,7 @@ class PgwPayController extends Controller
     //版本号
     public $version = '1.0.1';
     //商户号
-    public $merchantId = '000010461';
+    public $merchantId = '000010520';
 
     // 签约发短信
     public function signingSMS()
@@ -26,7 +26,7 @@ class PgwPayController extends Controller
         $params = [
             'version'     => $this->version,
             'merchantId'  => $this->merchantId,
-            'merOrderId'  => date('YmdH:i:s') . 111111,  //商户订单号
+            'merOrderId'  => date('YmdHis') . '01',  //商户订单号
             'organCode'   => '4001200007',               //银行机构号
             'organName'   => '招商银行',                  //银行名称
             'reqDate'     => date('Ymd H:i:s'),          //请求时间
@@ -40,10 +40,12 @@ class PgwPayController extends Controller
             'cvv2'        =>  $this->rsa_encryption($user->cvv2 ?? ''),
             //加密后的有效期,用sdk.rsa_encryption加密
             'validDate'   =>  $this->rsa_encryption($user->valid_date ?? ''),
-            'sign'        => '',
         ];
 
-        $rs = $this->get_result($url, $params);
+        $CSReq = 'QIARes';
+        $MessageId = date('YmdHis') . '02';
+
+        $rs = $this->getResult($url, $params, $CSReq, $MessageId);
         dd($rs);
     }
 
@@ -67,7 +69,7 @@ class PgwPayController extends Controller
             'sign'            => '',
         ];
 
-        $rs = $this->get_result($url, $params);
+        $rs = $this->getResult($url, $params);
         $data = [
             'merchantId' => $rs->merchantId,
             'merOrderId' => $rs->merOrderId,
@@ -113,7 +115,7 @@ class PgwPayController extends Controller
             'sign'            => '',
         ];
 
-        $rs = $this->get_result($url, $params);
+        $rs = $this->getResult($url, $params);
         $data = [
             'merchantId' => $rs->merchantId,
             'payOrderId' => $rs->payOrderId,
@@ -160,7 +162,7 @@ class PgwPayController extends Controller
             'sign'            => '',
         ];
 
-        $rs = $this->get_result($url, $params);
+        $rs = $this->getResult($url, $params);
         $data = [
             'merchantId' => $rs->merchantId,
             'payOrderId' => $rs->payOrderId,
@@ -200,7 +202,7 @@ class PgwPayController extends Controller
             'sign'            => '',
         ];
 
-        $rs = $this->get_result($url, $params);
+        $rs = $this->getResult($url, $params);
 
         // 应答 QRRes
         $data = [
@@ -240,7 +242,7 @@ class PgwPayController extends Controller
             'sign'            => '',
         ];
 
-        $rs = $this->get_result($url, $params);
+        $rs = $this->getResult($url, $params);
 
         // 应答 TSRes
         $data = [
@@ -261,32 +263,45 @@ class PgwPayController extends Controller
     }
 
     // 获取请求结果
-    public function getResult($url, $params)
+    public function getResult($url, $params, $CSReq = '', $MessageId = '')
     {
         $sign_str = $this->getSign($params);
 
-        $MessageId = '';
-        $CSReq = '';
+        // $MessageId = '';
+        // $CSReq = '';
 
         $append_xml = '';
-        $append_xml .= '<EctData>';
-        $append_xml .= '<Message id="' . $MessageId . '">';
-        $append_xml .= '<CSReq id="' . $CSReq . '">';
+        $append_xml .= '<EctData>' . "\n";
+        $append_xml .= '<Message id="' . $MessageId . '">' . "\n";
+        $append_xml .= '<CSReq id="' . $CSReq . '">' . "\n";
         foreach ($params as $key => $value) {
             if ($value) {
-                $append_xml .= '<' . $key . '>' . $value . '<' . $key . '>';
+                $append_xml .= '<' . $key . '>' . $value . '</' . $key . '>' . "\n";
             }
         }
-        $append_xml .= '<sign>' . $sign_str . '</sign>';
-        $append_xml .= '</CSReq>';
-        $append_xml .= '</Message>';
-        $append_xml .= '</EctData>';
-
-
+        $append_xml .= '<sign>' . $sign_str . '</sign>' . "\n";
+        $append_xml .= '</CSReq>' . "\n";
+        $append_xml .= '</Message>' . "\n";
+        $append_xml .= '</EctData>' . "\n";
+        dump($append_xml);
+        // dd($append_xml);
+//         $append_xml = '';
+//         foreach ($params as $k => $v) $append_xml .= "<{$k}>{$v}</{$k}>";
+//         $post_data = <<<EOF
+// <EctData>
+//     <Message id="201510280008881">
+//         <CSReq id="IAReq ">
+// 		    {$append_xml}
+// 		    <sign>{$sign_str}</sign>
+// 		</CSReq>
+//     </Message>
+// </EctData>
+// EOF;
+        // dump($post_data);
         $result = $this->curl_post_https($url, $append_xml);
-
-        $result_mb = mb_convert_encoding($result, 'GBK', 'UTF-8,GBK,GB2312,BIG5');
-        dd($result_mb);
+        dd($result);
+        // $result_mb = mb_convert_encoding($result, 'GBK', 'UTF-8,GBK,GB2312,BIG5');
+        // dd($result_mb);
 
         //验签
         $xml = simplexml_load_string($result);
@@ -309,7 +324,6 @@ class PgwPayController extends Controller
         } else {
             print("===========verify fail ===========\n");
         }
-
     }
 
     /**
@@ -331,7 +345,8 @@ class PgwPayController extends Controller
         //dd($query_str)
         //商户私钥,请根据实际私钥替换
         //$pfxpath = dirname(__FILE__).'/merchant.pfx';
-        $pfxpath = public_path('pgw-pay/merchant.pfx');
+        // $pfxpath = public_path('pgw-pay/merchant.pfx');
+        $pfxpath = public_path('pgw-pay/000010520.pfx');
         if (!file_exists($pfxpath)) {
             throw new InvalidRequestException('商户私钥未载入');
         }
@@ -382,6 +397,7 @@ class PgwPayController extends Controller
     {
         //公钥
         $public_key_str = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCme526ar35LeqRQaWzFvAd2NTKPmHdNfizeubSO3l+bkSrLT/hB3ZS46FGCK1r4SM6/Ka19ej2VP8oWrOrBUzk10pUBuvcBu7c2raVTs8oPM9O/notC460TPO9Bg8247lborjZGm9Fv0nlHhN0RYoUYUVuzvQkbBtpCqTO8sNeewIDAQAB';
+        // $public_key_str = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCme526ar35LeqRQaWzFvAd2NTKPmHdNfizeubSO3+bkSrLT/hB3ZS46FGCK1r4SM6/Ka19ej2VP8oWrOrBUzk10pUBuvcBu7c2raVTs8oPM9O/notC460TPO9Bg8247lborjZGm9Fv0nlHhN0RYoUYUVuzvQkbBtpCqTO8sNeewIDAQAB';
         $key = wordwrap($public_key_str, 64, "\n", true) . "\n";
         $pem_key = "-----BEGIN PUBLIC KEY-----\n" . $key . "-----END PUBLIC KEY-----\n";
         $pu_key_pem = openssl_pkey_get_public($pem_key);
