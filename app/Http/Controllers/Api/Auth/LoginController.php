@@ -20,7 +20,8 @@ class LoginController extends Controller
             return response()->json([
                 'error' => [
                     'phone' => '无法通过密码验证'
-                ]
+                ],
+                'message' => '账号密码不正确'
             ], 422);
         }
 
@@ -33,5 +34,12 @@ class LoginController extends Controller
                 'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
             ]
         ]);
+    }
+
+    // 退出登录
+    public function logout()
+    {
+        auth('api')->logout();
+        return response(null, 204);
     }
 }

@@ -133,6 +133,8 @@ Route::prefix('v1')
                     Route::post('payment/{order}/installment', 'PaymentController@payByInstallment')
                         ->name('payment.installment');
 
+                    // 退出登录
+                    Route::delete('auth/logout', 'Auth\LoginController@logout');
 
                     // 接口 绑定身份证
                     Route::post('user_set_id_card','Auth\MeController@SetIdCard');
