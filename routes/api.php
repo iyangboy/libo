@@ -91,6 +91,9 @@ Route::prefix('v1')
                 Route::get('actived/users', 'UsersController@activedIndex')
                     ->name('actived.users.index');
 
+                // 省市区
+                Route::get('china_areas','ChinaAreasController@index');
+
                 // 登录后可以访问的接口
                 Route::middleware('auth:api')->group(function () {
                     // 当前登录用户信息

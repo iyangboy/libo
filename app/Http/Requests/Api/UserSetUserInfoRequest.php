@@ -8,9 +8,10 @@ class UserSetUserInfoRequest extends FormRequest
     public function rules()
     {
         return [
-            'province'          => 'required|string',
-            'city'              => 'required|string',
-            'district'          => 'required|string',
+            // 'china_areas'       => 'required|string',
+            // 'province'          => 'required|string',
+            // 'city'              => 'required|string',
+            // 'district'          => 'required|string',
             'address'           => 'required|string',
             'occupation'        => 'required|string',
             'phone_long_time'   => 'required|string',
@@ -24,9 +25,9 @@ class UserSetUserInfoRequest extends FormRequest
     public function attributes()
     {
         return [
-            'province'          => '省份',
-            'city'              => '城市',
-            'district'          => '地区',
+            // 'province'          => '省份',
+            // 'city'              => '城市',
+            // 'district'          => '地区',
             'address'           => '地址详细',
             'occupation'        => '职业',
             'phone_long_time'   => '手机入网时长',

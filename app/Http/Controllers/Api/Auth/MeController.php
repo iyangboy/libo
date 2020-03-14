@@ -52,12 +52,15 @@ class MeController extends Controller
     {
         $user_id = $request->user()->id;
 
+        $china_areas = $request->china_areas ?? '';
+        $china_areas = explode('-', $china_areas);
+
         $info = UserInfo::updateOrCreate(
             ['user_id' => $user_id],
             [
-                'province'          => $request->province,
-                'city'              => $request->city,
-                'district'          => $request->district,
+                'province'          => $request->province ?? $china_areas[0],
+                'city'              => $request->city ?? $china_areas[1],
+                'district'          => $request->district ?? $china_areas[2],
                 'address'           => $request->address,
                 'occupation'        => $request->occupation,
                 'phone_long_time'   => $request->phone_long_time,
