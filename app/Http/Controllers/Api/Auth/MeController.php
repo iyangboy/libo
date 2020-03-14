@@ -30,10 +30,15 @@ class MeController extends Controller
     {
         $id_card = $request->id_card ?? '';
         $real_name = $request->user_name ?? '';
+        $card_front_path = $request->card_front_path ?? '';
+        $card_back_path = $request->card_back_path ?? '';
+
         $user = $request->user();
 
         $user->id_card   = $id_card;
         $user->real_name = $real_name;
+        $user->card_front_path = $card_front_path;
+        $user->card_back_path = $card_back_path;
         $user->save();
 
         return response()->json([
