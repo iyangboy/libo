@@ -93,6 +93,8 @@ Route::prefix('v1')
 
                 // 省市区
                 Route::get('china_areas','ChinaAreasController@index');
+                // 银行卡信息
+                Route::get('bank_codes','BankCodesController@index');
 
                 // 登录后可以访问的接口
                 Route::middleware('auth:api')->group(function () {
