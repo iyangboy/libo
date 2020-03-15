@@ -3,11 +3,13 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Source;
 use App\Models\User;
 use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
+use Illuminate\Database\Eloquent\Builder;
 
 class HomeController extends Controller
 {
@@ -15,7 +17,7 @@ class HomeController extends Controller
     {
         // 用户注册数量
         $users = User::with(['userInfo'])->get();
-        // dd($users);
+        // dd($users->toArray());
         // 用户注册总数
         $user_count = $users->count();
         // 用户会员人数
@@ -23,14 +25,29 @@ class HomeController extends Controller
         // 用户绑定身份证人数
         $user_id_card_count = $users->where('id_card', '>', 0)->count();
         // 基本信息填写人数
-        $user_info_count = $users->where('user_info', '!=', null)->count();
-        // dd($users->where('user_info', '!=', null));
+        // $user_info_count = $users->where('userInfo', '!=', null)->count();
+        $user_info_count = User::whereHas('userInfo', function (Builder $query) {
+            $query->where('user_id', '>', 0);
+        })->count();
+        // 绑卡成功数
+        $user_bank_card_count = User::whereHas('userBankCards', function (Builder $query) {
+            $query->where('protocol_id', '>', 0);
+        })->count();
+        // dd($user_bank_card_count);
+
+        // 区分来源
+        // 来源
+        $sources = Source::with(['adminUser', 'users'])->get();
+
 
         $data = [
-            'user_count'         => $user_count,
-            'user_grade_count'   => $user_grade_count,
-            'user_id_card_count' => $user_id_card_count,
-            'user_info_count'    => $user_info_count,
+            'user_count'           => $user_count,
+            'user_grade_count'     => $user_grade_count,
+            'user_id_card_count'   => $user_id_card_count,
+            'user_info_count'      => $user_info_count,
+            'user_bank_card_count' => $user_bank_card_count,
+
+            'sources'              => $sources,
         ];
 
         return $content

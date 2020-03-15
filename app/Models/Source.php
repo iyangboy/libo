@@ -17,4 +17,10 @@ class Source extends Model
     {
         return $this->belongsTo(AdminUser::class, 'admin_user_id');
     }
+
+    // 关联用户
+    public function users()
+    {
+        return $this->hasMany(User::class, 'source_id');
+    }
 }

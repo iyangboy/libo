@@ -11,105 +11,67 @@
     <table class="table table-bordered">
       <tbody>
         <tr>
-          <td><b>用户数据</b></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td colspan="5"><b>用户数据</b></td>
         </tr>
         <tr>
           <td>注册总用户数</td>
           <td>会员人数</td>
           <td>身份证登记人数</td>
           <td>基本信息填写人数</td>
+          <td>绑卡成功数</td>
         </tr>
         <tr>
           <td>{{ $user_count ?? '' }}</td>
           <td>{{ $user_grade_count ?? ''}}</td>
           <td>{{ $user_id_card_count ?? ''}}</td>
           <td>{{ $user_info_count ?? ''}}</td>
+          <td>{{ $user_bank_card_count ?? ''}}</td>
         </tr>
-        {{-- <tr>
-          <td>身份证号：</td>
-          <td></td>
-          <td></td>
-          <td></td>
+        @foreach($sources as $key => $value)
+        <tr>
+        <td colspan="5"><b>来源-> {{ $value->name }}</b> [所属管理员: {{ $value->adminUser->name ?? '未分配'}}]</td>
         </tr>
         <tr>
-          <td>联系方式：</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>{{ $value->users()->count() ?? '' }}</td>
+          <td>{{ $value->users()->where('grade_id', '>', 0)->count() ?? ''}}</td>
+          <td>{{ $value->users()->where('id_card', '>', 0)->count() ?? ''}}</td>
+          @php
+            $source_user_info_count = \App\Models\User::whereHas('userInfo', function (\Illuminate\Database\Eloquent\Builder $query) {
+              $query->where('user_id', '>', 0);
+            })->where('source_id', $value->id)->count();
+          @endphp
+          <td>{{ $source_user_info_count ?? ''}}</td>
+          @php
+            $source_user_bank_card_count = \App\Models\User::whereHas('userBankCards', function (\Illuminate\Database\Eloquent\Builder $query) {
+              $query->where('protocol_id', '>', 0);
+            })->where('source_id', $value->id)->count();
+          @endphp
+          <td>{{ $source_user_bank_card_count ?? ''}}</td>
         </tr>
-        <tr>
-          <td>来源：</td>
-          <td><span class="label label-success"></span></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td colspan="4">绑卡信息：</td>
-        </tr>
-        <tr>
-          <td>用户：</td>
-          <td>银行</td>
-          <td>卡号</td>
-          <td>手机号</td>
-        </tr> --}}
-        {{-- @foreach($user->userBankCards as $key => $value)
-      <tr>
-        <td>{{ $value->user_name }}</td>
-        <td>{{ $value->bank_name }}</td>
-        <td>{{ $value->card_number }}</td>
-        <td>{{ $value->phone }}</td>
-        </tr>
-        @endforeach --}}
-        {{-- <tr>
-          <td colspan="4"></td>
-        </tr>
-        <tr>
-          <td>地址信息：</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>职业：</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>手机入网时长：</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>网贷逾期情况:</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>社保:</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>公积金:</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>月薪:</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr> --}}
+        @endforeach
       </tbody>
     </table>
+    {{-- <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <td colspan="5"><b>用户数据</b></td>
+        </tr>
+        <tr>
+          <td>注册总用户数</td>
+          <td>会员人数</td>
+          <td>身份证登记人数</td>
+          <td>基本信息填写人数</td>
+          <td>绑卡成功数</td>
+        </tr>
+        <tr>
+          <td>{{ $user_count ?? '' }}</td>
+          <td>{{ $user_grade_count ?? ''}}</td>
+          <td>{{ $user_id_card_count ?? ''}}</td>
+          <td>{{ $user_info_count ?? ''}}</td>
+          <td>{{ $user_bank_card_count ?? ''}}</td>
+        </tr>
+      </tbody>
+    </table> --}}
   </div>
 </div>
 
