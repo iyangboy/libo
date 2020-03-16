@@ -53,4 +53,7 @@ Route::group([
 
     // 支持银行设置
     $router->resource('bank-codes', 'BankCodesController');
+
+    // 授信额度列表
+    $router->resource('credit-line-products', 'CreditLineProductsController');
 });
