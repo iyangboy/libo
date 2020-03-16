@@ -92,6 +92,9 @@ class OrdersController extends AdminController
         //     return $this->installment->no;
         // });
         $grid->column('installment.no', '分期信息')->modal('分期信息', function ($model) {
+            if(!$model->installment) {
+                return '未分期';
+            }
             $by_stages = $model->installment->items()->get()->map(function ($comment) {
                 return $comment->only(['id', 'sequence', 'base', 'fee', 'fine', 'due_date', 'paid_at', 'payment_method', 'payment_no']);
             });
@@ -138,8 +141,13 @@ class OrdersController extends AdminController
             //     $actions->add(new SetSources);
             // }
             if (\Admin::user()->can('set-orders')) {
-                // 设置来源信息
-                $actions->add(new SetInstallment);
+                // 设置分期
+                // dd($actions->row);
+                if (!$actions->row->installment) {
+                    // 未分期设置分期
+                    $actions->add(new SetInstallment);
+                }
+
             }
         });
 
@@ -198,13 +206,13 @@ class OrdersController extends AdminController
         $form->select('product_by_stage_id', '选择分期')->options(route('admin.select_products_by_stages', [1]));;
         // $form->number('by_stage', '分期数')->default(1);
         $form->textarea('remark', '备注');
-        $form->datetime('paid_at', '支付时间')->default(date('Y-m-d H:i:s'));
-        $form->text('payment_method', '支付方式');
+        $form->datetime('paid_at', '支付时间');
+        $form->select('payment_method', '支付方式')->options(['ali_pay' => '支付宝', 'wechat_pay' => '微信', 'pgw_pay' => '迅联支付']);
         $form->text('payment_no', '支付编号');
         // $form->text('refund_status', '退款状态')->default('pending');
         // $form->text('refund_no', '退款编号');
         $form->switch('closed', '是否关闭');
-        $form->text('ship_status', '订单状态')->default('pending');
+        $form->select('ship_status', '订单状态')->options(['pending' => '待支付', 'failed' => '支付失败', 'success' => '支付成功'])->default('pending');
 
         return $form;
     }
