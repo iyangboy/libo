@@ -29,7 +29,8 @@ Route::prefix('v1')
             ->group(function () {
 
                 Route::group(['prefix' => 'auth'], function () {
-                    Route::post('register', 'Auth\RegisterController@register');
+                    Route::post('register-captcha', 'Auth\RegisterController@registerCaptcha');
+                    Route::post('registerCaptcha', 'Auth\RegisterController@register');
                     Route::post('login', 'Auth\LoginController@login');
                     Route::get('me', 'Auth\MeController@me');
                 });
