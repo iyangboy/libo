@@ -35,11 +35,11 @@ class OrdersController extends AdminController
         // 只展示已支付的订单，并且默认按支付时间倒序排序
         $grid->model()->with(['user', 'product', 'installment.items']);
 
-        $grid->column('id', 'ID');
+        $grid->column('id', 'ID')->sortable()->totalRow('合计');
         $grid->column('no', '订单流水号');
         $grid->column('user.name', '用户');
         $grid->column('product.title', '商品');
-        $grid->column('loan_amount', '借款金额');
+        $grid->column('loan_amount', '借款金额')->totalRow();
         $grid->column('price', '服务费');
         // $grid->column('product_by_stage_id', __('Product by stage id'));
         $grid->column('by_stage', '分期数');
@@ -203,7 +203,7 @@ class OrdersController extends AdminController
         $form->text('no', '订单流水号');
         $form->decimal('loan_amount', '借款金额');
         $form->decimal('price', '服务费');
-        $form->select('product_by_stage_id', '选择分期')->options(route('admin.select_products_by_stages', [1]));;
+        // $form->select('product_by_stage_id', '选择分期')->options(route('admin.select_products_by_stages', [1]));
         // $form->number('by_stage', '分期数')->default(1);
         $form->textarea('remark', '备注');
         $form->datetime('paid_at', '支付时间');
