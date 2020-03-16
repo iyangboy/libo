@@ -12,6 +12,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Table;
 
 class OrdersController extends AdminController
 {
@@ -32,7 +33,7 @@ class OrdersController extends AdminController
         $grid = new Grid(new Order);
 
         // 只展示已支付的订单，并且默认按支付时间倒序排序
-        $grid->model()->with(['user', 'product']);
+        $grid->model()->with(['user', 'product', 'installment.items']);
 
         $grid->column('id', 'ID');
         $grid->column('no', '订单流水号');
@@ -87,6 +88,29 @@ class OrdersController extends AdminController
         ]);
         // $grid->column('ship_data', __('Ship data'));
         // $grid->column('extra', __('Extra'));
+        // $grid->column('installment', '分期信息')->display(function() {
+        //     return $this->installment->no;
+        // });
+        $grid->column('installment.no', '分期信息')->modal('分期信息', function ($model) {
+            $by_stages = $model->installment->items()->get()->map(function ($comment) {
+                return $comment->only(['id', 'sequence', 'base', 'fee', 'fine', 'due_date', 'paid_at', 'payment_method', 'payment_no']);
+            });
+
+            $comments = [];
+            foreach ($by_stages as $key => $value) {
+                $comments[$key]['id']             = $value['id'];
+                $comments[$key]['sequence']       = $value['sequence'];
+                $comments[$key]['base']           = $value['base'];
+                $comments[$key]['fee']            = $value['fee'];
+                $comments[$key]['fine']           = $value['fine'];
+                $comments[$key]['due_date']       = $value['due_date'];
+                $comments[$key]['paid_at']        = $value['paid_at'];
+                $comments[$key]['payment_method'] = $value['payment_method'];
+                $comments[$key]['payment_no']     = $value['payment_no'];
+            }
+
+            return new Table(['ID', '还款顺序', '当期本金', '当期手续费', '当期逾期费', '还款截止日期', '还款日期', '还款支付方式', '还款支付平台订单号'], $comments);
+        });
         $grid->column('created_at', '创建时间');
         // $grid->column('updated_at', '更新时间');
 

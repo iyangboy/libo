@@ -16,8 +16,8 @@ class SetInstallment extends RowAction
 
     public function handle(Model $model, Request $request)
     {
-        $products_by_stage_id = $request->products_by_stage_id ?? 0;
-        // $model ...
+        // $products_by_stage_id = $request->products_by_stage_id ?? 0;
+        $products_by_stage_id = $request->get('products_by_stage_id_' . $model->product->id) ?? 0;
 
         $rs = $this->modeInstallment($model, $products_by_stage_id);
 
@@ -26,7 +26,7 @@ class SetInstallment extends RowAction
 
     public function form(Model $model)
     {
-        $this->select('products_by_stage_id', '选择分期')->options(route('admin.select_products_by_stages', [$model->product->id]));
+        $this->select('products_by_stage_id_' . $model->product->id, '选择分期')->options(route('admin.select_products_by_stages', [$model->product->id]));
     }
 
     // 分期处理

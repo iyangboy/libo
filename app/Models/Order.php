@@ -98,4 +98,10 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+    // 分期情况
+    public function installment()
+    {
+        return $this->hasOne(Installment::class, 'order_id');
+    }
 }
