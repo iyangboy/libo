@@ -142,6 +142,9 @@ Route::prefix('v1')
                     // 退出登录
                     Route::delete('auth/logout', 'Auth\LoginController@logout');
 
+                    // 购买授信额度-列表
+                    Route::get('credit_line_products', 'CreditLinesController@index');
+
                     // 接口 绑定身份证
                     Route::post('user_set_id_card','Auth\MeController@SetIdCard');
                     // 设置用户基本信息
