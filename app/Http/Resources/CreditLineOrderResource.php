@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CreditLineResource extends JsonResource
+class CreditLineOrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,10 @@ class CreditLineResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'market_price' => $this->market_price,
-            'price' => $this->price,
-            'title' => $this->title,
-            'image' => $this->image,
-            'quota_min' => $this->quota_min,
-            'quota_max' => $this->quota_max,
+            'no' => $this->no,
+            'product_id' => $this->product_id,
+            'total_amount' => $this->total_amount,
+            'user_id' => $this->user_id,
         ];
     }
 }

@@ -16,7 +16,7 @@ class CreditLinesController extends Controller
         $creditLines = CreditLineProduct::where('on_sale', 1)->get();
 
         return response()->json([
-            'data' => new CreditLineResource($creditLines),
+            'data' => CreditLineResource::collection($creditLines),
         ], 200);
     }
 }

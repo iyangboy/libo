@@ -144,6 +144,8 @@ Route::prefix('v1')
 
                     // 购买授信额度-列表
                     Route::get('credit_line_products', 'CreditLinesController@index');
+                    // 购买授信额度-订单
+                    Route::resource('credit_line_orders', 'CreditLineOrdersController');
 
                     // 接口 绑定身份证
                     Route::post('user_set_id_card','Auth\MeController@SetIdCard');
