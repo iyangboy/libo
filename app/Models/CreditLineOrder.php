@@ -87,4 +87,10 @@ class CreditLineOrder extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // 关联商品
+    public function product()
+    {
+        return $this->belongsTo(CreditLineProduct::class, 'product_id');
+    }
 }
