@@ -21,6 +21,7 @@ class CreditLineOrder extends Model
     const SHIP_STATUS_PENDING = 'pending';
     const SHIP_STATUS_DELIVERED = 'delivered';
     const SHIP_STATUS_RECEIVED = 'received';
+    const SHIP_STATUS_SUCCESS = 'success';
 
     public static $refundStatusMap = [
         self::REFUND_STATUS_PENDING    => '未退款',

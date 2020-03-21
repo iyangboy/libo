@@ -16,10 +16,15 @@ class PrivateUserResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id'         => $this->id,
-            'name'       => $this->name,
-            'phone'      => $this->phone,
-            'created_at' => $this->created_at,
+            'id'              => $this->id,
+            'name'            => $this->name,
+            'phone'           => $this->phone,
+            'id_card'         => $this->id_card,
+            'real_name'       => $this->real_name,
+            'created_at'      => $this->created_at,
+            'user_info'       => new UserInfoResource($this->userInfo),
+            'user_bank_card'  => new UserBankCardResource($this->userBankCard),
+            'loan_success'    => new CreditLineOrderResource($this->creditLineOrderSuccess),
         ];
     }
 }
