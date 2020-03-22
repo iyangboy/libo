@@ -41,6 +41,10 @@ Route::prefix('v1')
                 // 短信验证码
                 Route::post('verificationCodes', 'VerificationCodesController@store')
                     ->name('verificationCodes.store');
+                // 手机注册验证码
+                Route::post('phoneRegisterCode', 'VerificationCodesController@phoneRegisterCode')
+                    ->name('verificationCodes.phoneRegisterCode');
+
                 // 用户注册
                 Route::post('users', 'UsersController@store')
                     ->name('users.store');
