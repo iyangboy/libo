@@ -17,7 +17,7 @@ class CreateLoanOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->string('no')->unique()->comment('订单流水号');
             $table->unsignedBigInteger('user_id')->comment('下单的用户 ID');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->text('address')->comment('');
             $table->decimal('total_amount', 10, 2)->comment('订单总金额');
             $table->text('remark')->nullable()->comment('订单备注');

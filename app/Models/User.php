@@ -147,4 +147,10 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
     {
         return $this->hasOne(CreditLineOrder::class, 'user_id')->where('ship_status', 'success')->orderBy('id', 'desc');
     }
+
+    // 紧急联系人
+    public function userRelations()
+    {
+        return $this->hasMany(UserRelation::class, 'user_id');
+    }
 }
