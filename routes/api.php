@@ -151,6 +151,9 @@ Route::prefix('v1')
                     // 购买授信额度-订单
                     Route::resource('credit_line_orders', 'CreditLineOrdersController');
 
+                    // 借款订单
+                    Route::resource('loan_orders', 'LoanOrdersController');
+
                     // 接口 绑定身份证
                     Route::post('user_set_id_card','Auth\MeController@SetIdCard');
                     // 设置用户基本信息

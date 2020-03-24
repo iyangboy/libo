@@ -87,5 +87,10 @@ class LoanOrder extends Model
         return $this->belongsTo(User::class);
     }
 
+    // 分期信息
+    public function installment()
+    {
+        return $this->hasOne(Installment::class, 'order_id')->where('type', 'loan');
+    }
 
 }
