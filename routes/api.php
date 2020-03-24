@@ -101,6 +101,9 @@ Route::prefix('v1')
                 // 银行卡信息
                 Route::get('bank_codes','BankCodesController@index');
 
+                // 协议
+                Route::resource('agreements', 'AgreementsController');
+
                 // 登录后可以访问的接口
                 Route::middleware('auth:api')->group(function () {
                     // 当前登录用户信息
@@ -153,6 +156,7 @@ Route::prefix('v1')
 
                     // 借款订单
                     Route::resource('loan_orders', 'LoanOrdersController');
+
 
                     // 接口 绑定身份证
                     Route::post('user_set_id_card','Auth\MeController@SetIdCard');
