@@ -22,6 +22,7 @@ class PrivateUserResource extends JsonResource
             'id_card'         => $this->id_card,
             'real_name'       => $this->real_name,
             'created_at'      => $this->created_at,
+            'predict_money'   => $this->predict_money,
             'user_info'       => new UserInfoResource($this->userInfo),
             'user_bank_card'  => new UserBankCardResource($this->userBankCard),
             'loan_success'    => new CreditLineOrderResource($this->creditLineOrderSuccess),

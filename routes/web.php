@@ -6,8 +6,13 @@ use App\Models\ProductSku;
 use App\Models\User;
 
 Route::get('/test', function () {
-    $adminUser = User::with(['userInfo'])->find(1);
-    dd($adminUser->toArray());
+    $predictMoneys = [
+        13500, 19600, 28600, 33800
+    ];
+    shuffle($predictMoneys);
+    dd($predictMoneys[0]);
+    $result = array_rand($predictMoneys,1);
+    dd($predictMoneys[$result]);
 });
 
 Route::get('/test-product-specification', function () {

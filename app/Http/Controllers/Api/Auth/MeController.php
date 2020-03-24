@@ -10,6 +10,7 @@ use App\Http\Requests\Api\UserSetUserInfoRequest;
 use App\Http\Resources\PrivateUserResource;
 use App\Models\UserBankCard;
 use App\Models\UserInfo;
+use App\Models\UserRelation;
 
 class MeController extends Controller
 {
@@ -22,6 +23,15 @@ class MeController extends Controller
     //
     public function me(Request $request)
     {
+        $user = $request->user();
+        $token = auth('api')->refresh();
+        return (new PrivateUserResource($user))->additional([
+            'meta' => [
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                // 'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+            ]
+        ]);
         return new PrivateUserResource($request->user());
     }
 
@@ -33,6 +43,10 @@ class MeController extends Controller
         $card_front_path = $request->card_front_path ?? '';
         $card_back_path = $request->card_back_path ?? '';
 
+        $relation_name = $request->relation_name ?? '';
+        $relation_type = $request->relation_type ?? '';
+        $relation_phone = $request->relation_phone ?? '';
+
         $user = $request->user();
 
         $user->id_card   = $id_card;
@@ -40,6 +54,18 @@ class MeController extends Controller
         $user->card_front_path = $card_front_path;
         $user->card_back_path = $card_back_path;
         $user->save();
+
+        $userRelation = UserRelation::updateOrCreate(
+            [
+                'user_id' => $user->id,
+                'phone' => $relation_phone,
+            ],
+            [
+                'relation' => $relation_type,
+                'name' => $relation_name,
+            ]
+        );
+
 
         return response()->json([
             'success' => ['绑定成功'],

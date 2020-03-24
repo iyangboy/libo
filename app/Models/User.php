@@ -51,6 +51,29 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
         'card_verified_at' => 'datetime',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        // 监听模型创建事件，在写入数据库之前触发
+        static::creating(function ($model) {
+            // 如果模型的 predict_money 字段为空
+            if (!$model->predict_money) {
+                $model->predict_money = static::setPredictMoney();
+            }
+        });
+    }
+
+    public static function setPredictMoney()
+    {
+        // 用户预估金额
+        $predictMoneys = [
+            13500, 19600, 28600, 33800
+        ];
+        shuffle($predictMoneys);
+
+        return $predictMoneys[0];
+    }
+
     public function topics()
     {
         return $this->hasMany(Topic::class);
