@@ -32,6 +32,7 @@ Route::prefix('v1')
                     Route::post('register-captcha', 'Auth\RegisterController@registerCaptcha');
                     Route::post('registerCaptcha', 'Auth\RegisterController@register');
                     Route::post('login', 'Auth\LoginController@login');
+                    Route::post('loginPhoneCode', 'Auth\LoginController@loginPhoneCode');
                     Route::get('me', 'Auth\MeController@me');
                 });
 
@@ -44,6 +45,9 @@ Route::prefix('v1')
                 // 手机注册验证码
                 Route::post('phoneRegisterCode', 'VerificationCodesController@phoneRegisterCode')
                     ->name('verificationCodes.phoneRegisterCode');
+                // 手机登陆验证码
+                Route::post('phoneLoginCode', 'VerificationCodesController@phoneLoginCode')
+                    ->name('verificationCodes.phoneLoginCode');
 
                 // 用户注册
                 Route::post('users', 'UsersController@store')

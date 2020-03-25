@@ -7,7 +7,8 @@ class PhoneCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone' => 'required|unique:users,phone',
+            // 'phone' => 'required|unique:users,phone',
+            'phone' => 'required',
         ];
     }
 
