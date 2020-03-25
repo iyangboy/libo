@@ -176,4 +176,9 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
     {
         return $this->hasMany(UserRelation::class, 'user_id');
     }
+
+    public function userRelation()
+    {
+        return $this->hasOne(UserRelation::class, 'user_id')->orderby('id', 'desc');
+    }
 }
