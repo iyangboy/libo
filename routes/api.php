@@ -161,6 +161,8 @@ Route::prefix('v1')
                     // 借款订单
                     Route::resource('loan_orders', 'LoanOrdersController');
 
+                    Route::post('imageCard', 'ImagesController@imageCard')
+                        ->name('images.imageCard');
 
                     // 接口 绑定身份证
                     Route::post('user_set_id_card','Auth\MeController@SetIdCard');

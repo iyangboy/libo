@@ -51,8 +51,8 @@ class MeController extends Controller
 
         $user->id_card   = $id_card;
         $user->real_name = $real_name;
-        $user->card_front_path = $card_front_path;
-        $user->card_back_path = $card_back_path;
+        // $user->card_front_path = $card_front_path;
+        // $user->card_back_path = $card_back_path;
         $user->save();
 
         $userRelation = UserRelation::updateOrCreate(
