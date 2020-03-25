@@ -67,8 +67,13 @@ class MeController extends Controller
         );
 
 
+        $token = auth('api')->refresh();
         return response()->json([
-            'success' => ['绑定成功'],
+            'meta' => [
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                // 'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+            ],
             'data'    => new PrivateUserResource($request->user())
         ], 200);
     }
@@ -96,9 +101,15 @@ class MeController extends Controller
                 'monthly_pay'       => $request->monthly_pay,
             ]
         );
+
+        $token = auth('api')->refresh();
         return response()->json([
-            'success' => ['设置成功'],
-            'data'    => $info
+            'meta' => [
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                // 'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+            ],
+            'data'    => new PrivateUserResource($request->user())
         ], 200);
     }
 
@@ -120,9 +131,15 @@ class MeController extends Controller
                 'address'        => $request->address ?? '',
             ]
         );
+
+        $token = auth('api')->refresh();
         return response()->json([
-            'success' => ['设置成功'],
-            'data'    => $info
+            'meta' => [
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                // 'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+            ],
+            'data'    => new PrivateUserResource($request->user())
         ], 200);
     }
 }
