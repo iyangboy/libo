@@ -90,18 +90,18 @@
               phone: phone,
             },
             dataType: "json",
-            beforeSend: function () {
-              lay = layer.open({
-                type: 2,
-                content: '加载中',
-                shadeClose: false
-              });
-            },
+            // beforeSend: function () {
+            //   lay = layer.open({
+            //     type: 2,
+            //     content: '加载中',
+            //     shadeClose: false
+            //   });
+            // },
             success: function (data, statusCode, xhr) {
               layer.close(lay);
-              console.log(data);
-              console.log(statusCode);
-              console.log(xhr);
+              // console.log(data);
+              // console.log(statusCode);
+              // console.log(xhr);
               if (xhr.status === 201) {
                 verification_key = data.key;
                 flag = 1;
@@ -127,7 +127,12 @@
                     })
                   }
                 });
+              } else if (xhr.status === 422) {
+                console.log(422);
               } else {
+                console.log(data);
+                console.log(statusCode);
+                console.log(xhr);
                 layer.open({
                   content: laytpl2,
                   shadeClose: false,
@@ -140,6 +145,15 @@
                   }
                 });
               }
+            },
+            error: function (error) {
+              // console.log(error);
+              // console.log("请求失败");
+              lay = layer.open({
+                type: 2,
+                content: '该手机号已注册',
+                shadeClose: true
+              });
             }
           });
         } else {
