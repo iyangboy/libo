@@ -34,6 +34,9 @@ Route::prefix('v1')
                     Route::post('login', 'Auth\LoginController@login');
                     Route::post('loginPhoneCode', 'Auth\LoginController@loginPhoneCode');
                     Route::get('me', 'Auth\MeController@me');
+                    // 推广-注册来源
+                    Route::post('sources_sendsms', 'Auth\SourcesController@sendsms');
+                    Route::post('sources_register', 'Auth\SourcesController@register');
                 });
 
                 // 图片验证码

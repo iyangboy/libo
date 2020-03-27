@@ -6,6 +6,7 @@ use App\Models\ProductSku;
 use App\Models\User;
 
 Route::get('/test', function () {
+    dd(Str::random(15));
     $predictMoneys = [
         13500, 19600, 28600, 33800
     ];

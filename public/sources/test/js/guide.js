@@ -3,9 +3,11 @@
   var product_name = "hmfq",
     download = {
       //https://fir.im/4m8h
-      iphoneDownload: "https://fir.im/nx9p",
-      androidDownload: "https://fir.im/vzy1",
+      iphoneDownload: "#iphone",
+      androidDownload: "#android",
     },
+    sources_slug = 'test_jerry',
+    verification_key,
     into_from,
     lay,
     flag = 1,
@@ -74,16 +76,18 @@
   $(".apply").on("click", function () {
     if (flag) {
       flag = 0;
-      var val = $("#phone").val();
+      var phone = $("#phone").val();
 
-      if (tools.isPhoneNo(val)) {
+      if (tools.isPhoneNo(phone)) {
         if (liboolean) {
-          var json = '{"mobile":"' + val + '","flag":"MSG_REG_AND_LOGIN_","product_type":"' + product_name + '"}';
+          var json = '{"mobile":"' + phone + '","flag":"MSG_REG_AND_LOGIN_","product_type":"' + product_name + '"}';
           $.ajax({
             type: "post",
-            url: tools.url + "/zy/zyUser/sendsms",
+            url: tools.url + "/auth/sources_sendsms",
             data: {
-              record: json
+              // record: json
+              source: sources_slug,
+              phone: phone,
             },
             dataType: "json",
             beforeSend: function () {
@@ -93,10 +97,13 @@
                 shadeClose: false
               });
             },
-            success: function (data) {
-              console.log(data);
+            success: function (data, statusCode, xhr) {
               layer.close(lay);
-              if (data.code == "0000" && data.result.status == 1) {
+              console.log(data);
+              console.log(statusCode);
+              console.log(xhr);
+              if (xhr.status === 201) {
+                verification_key = data.key;
                 flag = 1;
                 layer.open({
                   content: laytpl2,
@@ -109,14 +116,14 @@
                       $item.append(litpl);
                       $(".banner").hide();
                       liboolean = false;
-                      $("input").on("focus", function () {
-                        fn.iptFocus();
-                        fixed();
-                      })
-                      $("input").on("blur", function () {
-                        fn.iptBlur();
-                        fixed();
-                      })
+                      // $("input").on("focus", function () {
+                      //   fn.iptFocus();
+                      //   fixed();
+                      // })
+                      // $("input").on("blur", function () {
+                      //   fn.iptBlur();
+                      //   fixed();
+                      // })
                     })
                   }
                 });
@@ -139,14 +146,18 @@
           var codeVal = $("#code").val();
           if (codeVal) {
             // 调用接口
-            var json = '{"mobile":"' + val + '","password":" ","userChannel":"' + channel +
+            var json = '{"mobile":"' + phone + '","password":" ","userChannel":"' + channel +
               '","verify_code":"' + codeVal + '","into_from":"' + into_from +
               '","product_type":"' + product_name + '","flag":"MSG_LOGIN_","login_flag":"2"}';
             $.ajax({
               type: "post",
-              url: tools.url + "/zy/zyUser/registerAndLogin",
+              url: tools.url + "/auth/sources_register",
               data: {
-                record: json
+                // record: json
+                source: sources_slug,
+                phone: phone,
+                verification_key: verification_key,
+                verification_code: codeVal,
               },
               dataType: "json",
               beforeSend: function () {
@@ -156,10 +167,13 @@
                   shadeClose: false
                 });
               },
-              success: function (data) {
+              success: function (data, statusCode, xhr) {
                 flag = 1;
                 layer.close(lay);
-                if (data && data != "" && data.code == "0000") {
+                console.log(data);
+                console.log(statusCode);
+                console.log(xhr);
+                if (xhr.status === 201) {
                   layer.open({
                     content: laytpl2,
                     shadeClose: false,

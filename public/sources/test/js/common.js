@@ -2,8 +2,8 @@
   win.tools = {
     //接口地址
     // http://jtyqinghuaqianzhuang.com/jiedai
-    // url: "https://admin.szyingfang.com/api/v1",
-    url: "http://libo.test/api/v1",
+    // url: "http://libo.test/api/v1",
+    url: "https://admin.szyingfang.com/api/v1",
     // 验证手机号
     isPhoneNo: function (phone) {
       var pattern = /^1[3456789]\d{9}$/;
