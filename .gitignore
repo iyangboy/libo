@@ -3,6 +3,8 @@
 /public/storage
 /storage/*.key
 /vendor
+.DS_Store
+.ideo
 .env
 .env.backup
 .phpunit.result.cache
