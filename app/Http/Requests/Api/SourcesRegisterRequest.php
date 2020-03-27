@@ -7,8 +7,7 @@ class SourcesRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone'             => 'required|unique:users,phone',
-            // 'phone'             => 'required',
+            'phone'             => 'required',
             'source'            => 'required',
             'verification_key'  => 'required|string',
             'verification_code' => 'required|string',

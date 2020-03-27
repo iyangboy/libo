@@ -7,8 +7,8 @@ class SourcesSendSmsRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'phone' => 'required|unique:users,phone',
-            'phone'   => 'required',
+            'phone'   => 'required|unique:users,phone',
+            // 'phone'   => 'required',
             'source'  => 'required',
         ];
     }
