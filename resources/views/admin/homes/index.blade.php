@@ -29,22 +29,24 @@
         </tr>
         @foreach($sources as $key => $value)
         <tr>
-        <td colspan="5"><b>来源-> {{ $value->name }}</b> [所属管理员: {{ $value->adminUser->name ?? '未分配'}}]</td>
+          <td colspan="5"><b>来源-> {{ $value->name }}</b> [所属管理员: {{ $value->adminUser->name ?? '未分配'}}]</td>
         </tr>
         <tr>
           <td>{{ $value->users()->count() ?? '' }}</td>
           <td>{{ $value->users()->where('grade_id', '>', 0)->count() ?? ''}}</td>
           <td>{{ $value->users()->where('id_card', '>', 0)->count() ?? ''}}</td>
           @php
-            $source_user_info_count = \App\Models\User::whereHas('userInfo', function (\Illuminate\Database\Eloquent\Builder $query) {
-              $query->where('user_id', '>', 0);
-            })->where('source_id', $value->id)->count();
+          $source_user_info_count = \App\Models\User::whereHas('userInfo', function
+          (\Illuminate\Database\Eloquent\Builder $query) {
+          $query->where('user_id', '>', 0);
+          })->where('source_id', $value->id)->count();
           @endphp
           <td>{{ $source_user_info_count ?? ''}}</td>
           @php
-            $source_user_bank_card_count = \App\Models\User::whereHas('userBankCards', function (\Illuminate\Database\Eloquent\Builder $query) {
-              $query->where('protocol_id', '>', 0);
-            })->where('source_id', $value->id)->count();
+          $source_user_bank_card_count = \App\Models\User::whereHas('userBankCards', function
+          (\Illuminate\Database\Eloquent\Builder $query) {
+          $query->where('protocol_id', '>', 0);
+          })->where('source_id', $value->id)->count();
           @endphp
           <td>{{ $source_user_bank_card_count ?? ''}}</td>
         </tr>
@@ -65,19 +67,68 @@
         </tr>
         <tr>
           <td>{{ $user_count ?? '' }}</td>
-          <td>{{ $user_grade_count ?? ''}}</td>
-          <td>{{ $user_id_card_count ?? ''}}</td>
-          <td>{{ $user_info_count ?? ''}}</td>
-          <td>{{ $user_bank_card_count ?? ''}}</td>
-        </tr>
-      </tbody>
+    <td>{{ $user_grade_count ?? ''}}</td>
+    <td>{{ $user_id_card_count ?? ''}}</td>
+    <td>{{ $user_info_count ?? ''}}</td>
+    <td>{{ $user_bank_card_count ?? ''}}</td>
+    </tr>
+    </tbody>
     </table> --}}
+    <table class="table table-bordered">
+      <tr>
+        <td width="20%"><canvas id="myChart" width="400" height="400"></canvas></td>
+        <td width="20%"></td>
+        <td width="20%"></td>
+        <td width="20%"></td>
+        <td width="20%"></td>
+      </tr>
+    </table>
+    <div></div>
   </div>
 </div>
 
 <script>
   $(document).ready(function () {
 
+  });
+  $(function () {
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
   });
 
 </script>
