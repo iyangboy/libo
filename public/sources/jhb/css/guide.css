@@ -1,0 +1,255 @@
+body {
+	background-color: #dbb06a;
+}
+
+.container{
+	max-width: 7.5rem;
+	margin: 0 auto;
+}
+
+.main {
+	padding-top: 6.13rem;
+	height: 13.06rem;
+	background: url(../images/bg1.jpg) center top no-repeat;
+	-webkit-background-size: 100% 13.06rem;
+	background-size: 100% 13.06rem;
+}
+
+.content {
+	margin: 0 0.8rem;
+}
+
+.items {
+	margin-top: 0.43rem;
+}
+
+.img {
+	height: 0.9rem;
+	background: url(../images/adv.png) no-repeat;
+	-webkit-background-size: 100% 0.9rem;
+	background-size: 100% 0.9rem;
+}
+
+#vcode {
+	display: none;
+}
+
+.items li {
+	margin-top: 0.5rem;
+}
+
+.items li:first-child {
+	margin-top: 0;
+}
+
+.inpt {
+	padding: 0 0.3rem;
+	width: 5.9rem;
+	height: 0.88rem;
+	line-height: 0.88rem;
+	font-size: 0.32rem;
+	color: #4e4e4e;
+	border-radius: 0.08rem;
+	background-color: #f4f4f4;
+}
+
+.adv {
+	margin: 0 0.75rem 0 0.65rem;
+}
+
+.apply {
+	margin: 0.84rem 0 0 0;
+	display: block;
+	height: 0.84rem;
+	line-height: 0.84rem;
+	font-size: 0.36rem;
+	text-align: center;
+	outline: 0;
+	border-radius: 0.08rem;
+	color: #fff;
+	background: url(../images/btn.png) no-repeat;
+	-webkit-background-size: 100% 0.84rem;
+	background-size: 100% 0.84rem;
+	animation-name: scaleDraw;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-duration: 5s;
+}
+
+@-webkit-keyframes scaleDraw {
+
+	/*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+	0% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		/*开始为原始大小*/
+	}
+
+	25% {
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
+		/*放大1.1倍*/
+	}
+
+	50% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+
+	75% {
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
+	}
+}
+
+@keyframes scaleDraw {
+
+	/*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+	0% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		/*开始为原始大小*/
+	}
+
+	25% {
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
+		/*放大1.1倍*/
+	}
+
+	50% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+
+	75% {
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
+	}
+}
+
+.banner {
+	height: 2.13rem;
+	background: url(../images/banner.png) no-repeat;
+	-webkit-background-size: 100% 2.13rem;
+	background-size: 100% 2.13rem;
+}
+
+.con {
+	height: 0.5rem;
+	line-height: 0.5rem;
+	text-align: center;
+	font-size: 0.22rem;
+}
+
+.link {
+	color: #fff;
+}
+
+/* 弹窗 */
+
+.layer-con {
+	padding-top: 3.69rem;
+	margin: 0 auto;
+	width: 4.96rem;
+	height: 2.38rem;
+	text-align: center;
+}
+
+.layer-con.phone {
+	background: url(../images/wrong_phone.png) no-repeat;
+	-webkit-background-size: 4.96rem 6.07rem;
+	background-size: 4.96rem 6.07rem;
+}
+
+.layer-con.code {
+	background: url(../images/wrong_code.png) no-repeat;
+	-webkit-background-size: 4.96rem 6.07rem;
+	background-size: 4.96rem 6.07rem;
+}
+
+.layer-con.success {
+	background: url(../images/success.png) no-repeat;
+	-webkit-background-size: 4.96rem 6.07rem;
+	background-size: 4.96rem 6.07rem;
+}
+
+.layui-m-layerchild {
+	background-color: transparent !important;
+}
+
+.layer-msg {
+	line-height: 1.22rem;
+	font-size: 0.38rem;
+	color: #dc9727;
+}
+
+.layer-con.success .layer-msg {
+	color: #ff902c;
+}
+
+.layer-goto {
+	display: block;
+	height: 1.16rem;
+	line-height: 1.16rem;
+	text-align: center;
+	font-size: 0.44rem;
+	color: #fff;
+}
+
+.wrong {
+	transform: scale(0.7);
+}
+
+.download {
+	margin-top: 0.61rem;
+	text-align: center;
+}
+
+.download-icon {
+	display: inline-block;
+	width: 0.93rem;
+	height: 0.96rem;
+	background: url(../images/download_icon.png) no-repeat;
+	-webkit-background-size: 0.93rem 0.96rem;
+	background-size: 0.93rem 0.96rem;
+}
+
+.download-h {
+	margin-top: 0.25rem;
+	height: 0.64rem;
+	line-height: 0.64rem;
+	font-size: 0.34rem;
+	color: #fefefe;
+}
+
+.download-p {
+	height: 0.56rem;
+	line-height: 0.56rem;
+	font-size: 0.28rem;
+	color: #fff;
+}
+
+.download-con {
+	margin: 0.71rem 0.1rem 0;
+	overflow: hidden;
+}
+
+.download-link {
+	width: 2.7rem;
+	height: 0.8rem;
+}
+
+.download-link.android {
+	float: left;
+	background: url(../images/download_android.png) no-repeat;
+	-webkit-background-size: 2.7rem 0.8rem; 
+	background-size: 2.7rem 0.8rem;
+}
+
+.download-link.ios {
+	float: right;
+	background: url(../images/download_ios.png) no-repeat;
+	-webkit-background-size: 2.7rem 0.8rem; 
+	background-size: 2.7rem 0.8rem;
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="renderer" content="webkit">
+		<!-- 用于响应式 -->
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<link href="css/common.css" rel="stylesheet">
+		<link href="css/guide.css" rel="stylesheet">
+		<title>易口袋</title>
+		<script src="js/libs/rem.js"></script>
+		<script src="js/libs/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="main">
+				<div class="content">
+					<div class="img">
+						<img src="images/money.png" alt="">
+					</div>
+					<div id="content">
+						<ul class="items">
+							<li>
+								<input type="text" class="inpt" id="phone" placeholder="请输入您的手机号" />
+							</li>
+						</ul>
+						<a href="javascript:void(0);" class="apply">立即领钱</a>
+					</div>
+				</div>
+				<div class="adv">
+					<img src="images/adv.png" alt="">
+				</div>
+				<div class="con">
+					<a href="javascript:void(0);" class="link">已注册用户下载入口</a>
+				</div>
+        <div class="footer">广州漫甜网络科技有限公司<br/>粤ICP备19090502号</div>
+			</div>
+		</div>
+		<!-- 验证码框 -->
+		<script type="text/temple" id="list-tpl">
+			<li>
+				<input type="text" class="inpt" id="code" placeholder="请输入验证码" />
+			</li>
+		</script>
+		<script type="text/temple" id="download-tpl">
+			<div class="download">
+				<i class="download-icon"></i>
+				<h2 class="download-h">恭喜领取成功！</h2>
+				<p class="download-p">请前往APP进行后续操作</p>
+			</div>
+			<div class="download-con">
+				<a href="{{iphoneDownload}}" class="download-link ios" id="ios"></a>
+				<a href="{{androidDownload}}" class="download-link android" id="android"></a>
+			</div>
+		</script>
+		<!-- 失败 -->
+		<script type="text/temple" id="layer-msg">
+			<div class="layer-con">
+				<div class="layer-msg" id="laymsg"></div>
+				<a href="javascript:void(0);" class="layer-goto">确定</a>
+			</div>
+		</script>
+		<script src="js/common.js"></script>
+		<script src="js/libs/mustache.js"></script>
+		<script src="js/libs/layer_mobile/layer.js"></script>
+		<script src="js/guide.js"></script>
+	</body>
+
+</html>

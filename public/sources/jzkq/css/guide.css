@@ -1,0 +1,256 @@
+body {
+	background-color: #fff;
+}
+
+.container{
+	max-width: 7.5rem;
+	margin: 0 auto;
+}
+
+.main {
+	height: 13.34rem;
+}
+
+.bar {
+	height: 7.6rem;
+	background: url(../images/bar.jpg) no-repeat;
+	-webkit-background-size: 100% 7.6rem;
+	background-size: 100% 7.6rem;
+}
+
+.content {
+	margin: 0 0.54rem 0 0.62rem;
+}
+
+.adv {
+	height: 1.8rem;
+	background: url(../images/adv.jpg) no-repeat;
+	-webkit-background-size: 100% 1.8rem;
+	background-size: 100% 1.8rem;
+}
+
+img {
+	display: block;
+	width: 100%;
+	vertical-align: top;
+}
+
+#vcode {
+	display: none;
+}
+
+.items li {
+	margin-top: 0.3rem;
+}
+
+.items li:first-child {
+	margin-top: 0;
+}
+
+.inpt {
+	padding: 0 0.26rem;
+	width: 6.34rem;
+	height: 0.88rem;
+	line-height: 0.88rem;
+	font-size: 0.32rem;
+	border-radius: 0.44rem;
+	color: #212121 !important;
+	background-color: #f6f6f6 !important;
+}
+
+.apply {
+	margin-top: 0.66rem;
+	display: block;
+	height: 0.88rem;
+	line-height: 0.88rem;
+	font-size: 0.38rem;
+	letter-spacing: 0.16rem;
+	text-align: center;
+	outline: 0;
+	border: 0;
+	border-radius: 0.44rem;
+	color: #fff;
+	background: url(../images/btn.png) no-repeat;
+	-webkit-background-size: 100% 0.88rem;
+	background-size: 100% 0.88rem;
+	box-shadow:0px 4px 8px 0px rgba(180,139,16,0.27);
+	animation-name: scaleDraw;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-duration: 5s;
+}
+
+@-webkit-keyframes scaleDraw {
+
+	/*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+	0% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		/*开始为原始大小*/
+	}
+
+	25% {
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
+		/*放大1.1倍*/
+	}
+
+	50% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+
+	75% {
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
+	}
+}
+
+@keyframes scaleDraw {
+
+	/*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+	0% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		/*开始为原始大小*/
+	}
+
+	25% {
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
+		/*放大1.1倍*/
+	}
+
+	50% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+
+	75% {
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
+	}
+}
+
+.info {
+	height: 0.85rem;
+	background: url(../images/info.jpg) no-repeat;
+	-webkit-background-size: 100% 0.85rem;
+	background-size: 100% 0.85rem;
+}
+
+.con {
+	height: 0.5rem;
+	line-height: 0.5rem;
+	text-align: center;
+	font-size: 0.22rem;
+}
+
+.link {
+	color: #fec617;
+}
+
+/* 弹窗 */
+
+.layer-con {
+	width: 5.6rem;
+	height: 5.6rem;
+	text-align: center;
+	background-color: #fff;
+	border-radius: 0.09rem;
+	box-shadow:0px 10px 30px 0px rgba(0,0,0,0.47);
+}
+
+.layui-m-layerchild {
+	background-color: transparent !important;
+}
+
+.layer-msg {
+	line-height: 0.72rem;
+	font-size: 0.34rem;
+	color: #6da1f2;
+}
+
+.layer-goto {
+	display: block;
+	margin: 0.47rem 0.4rem 0;
+	height: 0.9rem;
+	line-height: 0.9rem;
+	text-align: center;
+	color: #fff;
+	background-color: #4782df;
+}
+
+.layer-img {
+	height: 2.79rem;
+}
+
+.layer-img.wrong {
+	background: url(../images/wrong_img.jpg) center bottom no-repeat;
+	-webkit-background-size: 100% 2.66rem;
+	background-size: 100% 2.66rem;
+}
+
+.layer-img.code {
+	background: url(../images/code_img.jpg) center bottom no-repeat;
+	-webkit-background-size: 100% 2.66rem;
+	background-size: 100% 2.66rem;
+}
+
+.layer-img.success {
+	background: url(../images/success_img.jpg) center bottom no-repeat;
+	-webkit-background-size: 100% 2.66rem;
+	background-size: 100% 2.66rem;
+}
+
+.download {
+	text-align: center;
+}
+
+.download-icon {
+	display: inline-block;
+	width: 0.93rem;
+	height: 1rem;
+	background: url(../images/download_icon.png) no-repeat;
+	-webkit-background-size: ;
+	background-size: 0.93rem 1rem;
+}
+
+.download-h {
+	margin-top: 0.32em;
+	height: 0.67rem;
+	line-height: 0.67rem;
+	font-size: 0.4rem;
+	color: #fec617;
+}
+
+.download-p {
+	height: 0.48rem;
+	line-height: 0.61rem;
+	font-size: 0.28rem;
+	color: #a0a0a0;
+}
+
+.download-con {
+	margin: 0.52rem 0.28rem 0 0.36rem;
+	overflow: hidden;
+}
+
+.download-link {
+	width: 2.7rem;
+	height: 0.8rem;
+}
+
+.download-link.android {
+	float: left;
+	background: url(../images/download_android.png) no-repeat;
+	-webkit-background-size: 2.7rem 0.8rem; 
+	background-size: 2.7rem 0.8rem;
+}
+
+.download-link.ios {
+	float: right;
+	background: url(../images/download_ios.png) no-repeat;
+	-webkit-background-size: 2.7rem 0.8rem; 
+	background-size: 2.7rem 0.8rem;
+}

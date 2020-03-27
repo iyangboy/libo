@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="renderer" content="webkit">
+		<!-- 用于响应式 -->
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<link href="css/common.css" rel="stylesheet">
+		<link href="css/guide.css" rel="stylesheet">
+		<title>阿咪借</title>
+		<script src="js/libs/rem.js"></script>
+		<script src="js/libs/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="main">
+				<div class="content">
+					<div class="slider" id="slider">
+						<ul class="infoList" id="slder-con">
+							
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="temple" id="scroll-tpl">
+			{{#item}}
+			<li>{{.}}</li>
+			{{/item}}
+		</script>
+		<script src="js/common.js"></script>
+		<script src="js/libs/mustache.js"></script>
+		<script src="js/libs/jquery.SuperSlide.2.1.1.js"></script>
+		<script src="js/guide.js"></script>
+	</body>
+
+</html>
