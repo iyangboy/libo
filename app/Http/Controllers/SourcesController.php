@@ -13,10 +13,12 @@ class SourcesController extends Controller
     {
         $today = Carbon::today()->toDateString();
 
-        $statistics = UserStatistic::where('day_at', $today)->first();
-        $statistics->visits()->increment();
+        $statistic = UserStatistic::where('day_at', $today)->first();
+        // $statistic->increment('uv');
+        $statistic->visits()->increment();
 
-        // dd($statistics->visits()->count());
+        // dd($statistic->uv);
+        // dd($statistic->visits()->count());
 
         return redirect('sources/' . $slug . '/index.html');
 
