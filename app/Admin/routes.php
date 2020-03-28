@@ -11,7 +11,7 @@ Route::group([
     'as'            => 'admin.'
 ], function (Router $router) {
 
-    $router->get('/', 'HomeController@index')->name('admin.home');
+    $router->get('/', 'HomeController@index')->name('home');
 
     // 图片上传（simditor）
     $router->post('simditor_upload_image', 'SimditorController@uploadImage');

@@ -11,13 +11,24 @@ use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(Content $content)
+    public function index(Content $content, Request $request)
     {
         // 用户注册数量
-        $users = User::with(['userInfo'])->get();
+        $users = User::query()->with(['userInfo']);
+        // search 参数用来模糊搜索商品
+        if ($search = $request->input('start_time', '')) {
+            // 模糊搜索商品标题、商品详情、SKU 标题、SKU描述
+            $users->where('created_at', '>', $search);
+        }
+        if ($search = $request->input('end_time', '')) {
+            // 模糊搜索商品标题、商品详情、SKU 标题、SKU描述
+            $users->where('created_at', '<', $search);
+        }
+        $users = $users->get();
         // dd($users->toArray());
         // 用户注册总数
         $user_count = $users->count();
@@ -27,24 +38,52 @@ class HomeController extends Controller
         $user_id_card_count = $users->where('id_card', '>', 0)->count();
         // 基本信息填写人数
         // $user_info_count = $users->where('userInfo', '!=', null)->count();
-        $user_info_count = User::whereHas('userInfo', function (Builder $query) {
+        // $user_info_count = User::whereHas('userInfo', function (Builder $query) {
+        //     $query->where('user_id', '>', 0);
+        // })->count();
+        $user_info = User::query()->whereHas('userInfo', function (Builder $query) {
             $query->where('user_id', '>', 0);
-        })->count();
+        });
+        if ($search = $request->input('start_time', '')) {
+            $user_info->where('created_at', '>', $search);
+        }
+        if ($search = $request->input('end_time', '')) {
+            $user_info->where('created_at', '<', $search);
+        }
+        $user_info_count = $user_info->count();
         // 绑卡成功数
-        $user_bank_card_count = User::whereHas('userBankCards', function (Builder $query) {
+        // $user_bank_card_count = User::whereHas('userBankCards', function (Builder $query) {
+        //     $query->where('protocol_id', '>', 0);
+        // })->count();
+        $user_bank_card = User::query()->whereHas('userBankCards', function (Builder $query) {
             $query->where('protocol_id', '>', 0);
-        })->count();
+        });
+        if ($search = $request->input('start_time', '')) {
+            $user_bank_card->where('created_at', '>', $search);
+        }
+        if ($search = $request->input('end_time', '')) {
+            $user_bank_card->where('created_at', '<', $search);
+        }
+        $user_bank_card_count = $user_bank_card->count();
         // dd($user_bank_card_count);
 
         // 区分来源
         // 来源
-        $sources = Source::with(['adminUser', 'users'])->get();
-
+        $sources = Source::query()->with(['adminUser', 'users']);
+        if ($search = $request->input('start_time', '')) {
+            $sources->where('created_at', '>', $search);
+        }
+        if ($search = $request->input('end_time', '')) {
+            $sources->where('created_at', '<', $search);
+        }
+        $sources = $sources->get();
         $user_statistics = $this->statistics();
         $user_statistics_key = collect($user_statistics)->keys();
         $user_statistics_value = collect($user_statistics)->values();
         // dd($user_statistics_value);
         $data = [
+            'request'               => $request,
+
             'user_count'            => $user_count,
             'user_grade_count'      => $user_grade_count,
             'user_id_card_count'    => $user_id_card_count,
