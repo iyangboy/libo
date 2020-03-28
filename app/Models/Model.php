@@ -16,4 +16,10 @@ class Model extends EloquentModel
         return $query->orderBy('order', 'desc');
     }
 
+    // 统计
+    public function visits()
+    {
+        return visits($this);
+    }
+
 }
