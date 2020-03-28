@@ -4,16 +4,19 @@ use App\Models\AdminUser;
 use App\Models\Product;
 use App\Models\ProductSku;
 use App\Models\User;
+use Carbon\Carbon;
 
 Route::get('/test', function () {
-    dd(Str::random(15));
+    $start = Carbon::today();
+    dd($start->subDays(6));
+    $start->firstWeekDay;
+
+    $end = Carbon::today();
+    $end->endOfWeek();
+    dd($end);
     $predictMoneys = [
         13500, 19600, 28600, 33800
     ];
-    shuffle($predictMoneys);
-    dd($predictMoneys[0]);
-    $result = array_rand($predictMoneys,1);
-    dd($predictMoneys[$result]);
 });
 
 Route::get('/test-product-specification', function () {

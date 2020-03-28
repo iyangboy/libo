@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Source;
 use App\Models\User;
+use Carbon\Carbon;
 use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
@@ -39,6 +40,11 @@ class HomeController extends Controller
         // 来源
         $sources = Source::with(['adminUser', 'users'])->get();
 
+        // 添加时间筛选
+        $today = Carbon::today();
+        // 用户注册数量
+        $users = User::with(['userInfo'])->where('created_at', '>', $today->subDays(6))->get();
+        dd($users->count());
 
         $data = [
             'user_count'           => $user_count,
