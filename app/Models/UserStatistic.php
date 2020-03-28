@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class UserStatistic extends Model
 {
-    //
+    // 用户统计
+    protected $table = 'user_statistics';
+
+    protected $primaryKey = 'id';
+
+    protected $guarded = [];
 }

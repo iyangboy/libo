@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 class Model extends EloquentModel
@@ -13,6 +14,7 @@ class Model extends EloquentModel
 
     public function scopeOrdered($query)
     {
+
         return $query->orderBy('order', 'desc');
     }
 
