@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 Route::get('/test', function () {
     $start = Carbon::today();
-    dd($start->subDays(6));
+    dd($start->subDays(6)->toDateString());
     $start->firstWeekDay;
 
     $end = Carbon::today();

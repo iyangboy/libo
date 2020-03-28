@@ -40,20 +40,22 @@ class HomeController extends Controller
         // 来源
         $sources = Source::with(['adminUser', 'users'])->get();
 
-        // 添加时间筛选
-        $today = Carbon::today();
-        // 用户注册数量
-        $users = User::with(['userInfo'])->where('created_at', '>', $today->subDays(6))->get();
-        dd($users->count());
-
+        $user_statistics = $this->statistics();
+        $user_statistics_key = collect($user_statistics)->keys();
+        $user_statistics_value = collect($user_statistics)->values();
+        // dd($user_statistics_value);
         $data = [
-            'user_count'           => $user_count,
-            'user_grade_count'     => $user_grade_count,
-            'user_id_card_count'   => $user_id_card_count,
-            'user_info_count'      => $user_info_count,
-            'user_bank_card_count' => $user_bank_card_count,
+            'user_count'            => $user_count,
+            'user_grade_count'      => $user_grade_count,
+            'user_id_card_count'    => $user_id_card_count,
+            'user_info_count'       => $user_info_count,
+            'user_bank_card_count'  => $user_bank_card_count,
 
-            'sources'              => $sources,
+            'sources'               => $sources,
+
+            'user_statistics'       => $user_statistics,
+            'user_statistics_key'   => $user_statistics_key,
+            'user_statistics_value' => $user_statistics_value,
         ];
 
         return $content
@@ -80,5 +82,25 @@ class HomeController extends Controller
                     $column->append(Dashboard::dependencies());
                 });
             });
+    }
+
+    // 用户注册量
+    public function statistics()
+    {
+        $data = [];
+        for ($i = 6; $i >= 0; $i--){
+            $today = Carbon::today();
+            $day = $today->subDays($i)->toDateString();
+            if ($i) {
+                $today_end = Carbon::today();
+                $day_end = $today_end->subDays($i-1)->toDateString();
+                $count = User::with(['userInfo'])->where('created_at', '>', $day)->where('created_at', '<', $day_end)->count();
+            } else {
+                $count = User::with(['userInfo'])->where('created_at', '>', $day)->count();
+            }
+
+            $data[$day] = $count;
+        }
+        return $data;
     }
 }

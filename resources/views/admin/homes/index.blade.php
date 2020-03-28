@@ -76,8 +76,11 @@
     </table> --}}
     <table class="table table-bordered">
       <tr>
-        <td width="20%"><canvas id="myChart" width="400" height="400"></canvas></td>
-        <td width="20%"></td>
+      <td width="20%"><canvas id="myChart" width="400" height="400"
+        data-user_statistics_key="{{$user_statistics_key}}"
+        data-user_statistics_value="{{$user_statistics_value}}"
+        ></canvas></td>
+      <td width="20%"></td>
         <td width="20%"></td>
         <td width="20%"></td>
         <td width="20%"></td>
@@ -93,18 +96,23 @@
   });
   $(function () {
     var ctx = document.getElementById("myChart").getContext('2d');
+    var user_statistics_key = $("#myChart").data('user_statistics_key');
+    var user_statistics_value = $("#myChart").data('user_statistics_value');
     var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        // labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: user_statistics_key,
         datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
+          label: '近七天注册量',
+          // data: [12, 19, 3, 5, 2, 3, 7],
+          data: user_statistics_value,
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
             'rgba(255, 206, 86, 0.2)',
             'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
             'rgba(153, 102, 255, 0.2)',
             'rgba(255, 159, 64, 0.2)'
           ],
@@ -113,6 +121,7 @@
             'rgba(54, 162, 235, 1)',
             'rgba(255, 206, 86, 1)',
             'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
             'rgba(153, 102, 255, 1)',
             'rgba(255, 159, 64, 1)'
           ],
