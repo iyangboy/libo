@@ -116,13 +116,19 @@ class SourcesController extends AdminController
         $form = new Form(new Source);
 
         $form->text('name', '名称');
-        // $form->text('slug', '标记');
+        $form->hidden('slug', '标记');
         // $form->number('admin_user_id', '关联管理员');
         $form->text('remark', '备注');
         // $form->number('user_count', '来源总数');
         // $form->number('user_count_decrement', '来源扣除数');
         // $form->number('user_count_decrement_base', '扣除基数');
         // $form->number('user_count_real', '真实总数');
+        $form->saving(function (Form $form) {
+            if (!$form->slug) {
+                $form->slug = Source::findAvailableSlug();
+            }
+        });
+
 
         return $form;
     }

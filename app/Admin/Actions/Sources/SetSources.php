@@ -17,11 +17,27 @@ class SetSources extends RowAction
         $slug = $request->slug ?? '';
         $user_count_decrement_base = $request->user_count_decrement_base ?? 0;
 
-        $model->admin_user_id = $admin_user_id;
-        $model->slug = $slug;
-        $model->user_count_decrement_base = $user_count_decrement_base;
-        $model->save();
+        // $model->admin_user_id = $admin_user_id;
+        // $model->slug = $slug;
+        // $model->user_count_decrement_base = $user_count_decrement_base;
+        // $model->save();
 
+        try {
+            // 处理逻辑...
+            if ($admin_user_id) {
+                $model->admin_user_id = $admin_user_id;
+            }
+            if ($slug) {
+                $model->slug = $slug;
+            }
+            if ($user_count_decrement_base) {
+                $model->user_count_decrement_base = $user_count_decrement_base;
+            }
+            $model->save();
+            return $this->response()->success('操作成功')->refresh();
+        } catch (\Exception $e) {
+            return $this->response()->error('产生错误：'.$e->getMessage());
+        }
         return $this->response()->success('操作成功')->refresh();
     }
 
