@@ -30,7 +30,8 @@ class CalculateUserStatistic extends Command
 
         $today = Carbon::today()->subDays(1)->toDateString();
 
-        $statistic = UserStatistic::where('day_at', $today)->first();
+        // $statistic = UserStatistic::where('day_at', $today)->first();
+        $statistic = UserStatistic::firstOrCreate(['day_at' => $today]);
         if ($statistic) {
             $statistic->increment('uv', $statistic->visits()->count());
             // 清除项目的访问次数
