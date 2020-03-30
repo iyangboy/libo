@@ -70,7 +70,7 @@ class HomeController extends Controller
 
         // 区分来源
         // 来源
-        $sources = Source::query()->with(['adminUser', 'users']);
+        $sources = Source::query()->with(['adminUser', 'users', 'uv']);
         if ($search = $request->input('start_time', '')) {
             $sources->where('created_at', '>', $search);
         }

@@ -36,7 +36,7 @@
           <td>绑卡成功数</td>
         </tr>
         <tr>
-          <td>{{ $uv_source ?? '' }}</td>
+          <td></td>
           <td>{{ $user_count ?? '' }}</td>
           <td>{{ $user_grade_count ?? ''}}</td>
           <td>{{ $user_id_card_count ?? ''}}</td>
@@ -48,7 +48,7 @@
           <td colspan="6"><b>来源-> {{ $value->name }}</b> [所属管理员: {{ $value->adminUser->name ?? '未分配'}}]</td>
         </tr>
         <tr>
-          <td></td>
+          <td>{{ $value->uv()->count() ?? '' }}</td>
           <td>{{ $value->users()->count() ?? '' }}</td>
           <td>{{ $value->users()->where('grade_id', '>', 0)->count() ?? ''}}</td>
           <td>{{ $value->users()->where('id_card', '>', 0)->count() ?? ''}}</td>
