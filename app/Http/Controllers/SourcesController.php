@@ -13,7 +13,9 @@ class SourcesController extends Controller
     {
         $today = Carbon::today()->toDateString();
 
-        $statistic = UserStatistic::where('day_at', $today)->first();
+        // $statistic = UserStatistic::where('day_at', $today)->first();
+        $statistic = UserStatistic::firstOrCreate(['day_at' => $today]);
+
         // $statistic->increment('uv');
         $statistic->visits()->increment();
 
@@ -23,4 +25,5 @@ class SourcesController extends Controller
         return redirect('sources/' . $slug . '/index.html');
 
     }
+
 }

@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\UserStatistic;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class StatisticsController extends Controller
 {
-    //
+
     public function uvAdd(Request $request)
     {
         $today = Carbon::today()->toDateString();
@@ -24,4 +25,5 @@ class StatisticsController extends Controller
 
         return $statistic->visits()->count();
     }
+
 }

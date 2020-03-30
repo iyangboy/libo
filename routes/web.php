@@ -194,7 +194,7 @@ Route::get('phpinfo', function () {
 
 Route::redirect('/', '/admin');
 Route::get('sources/{slug}', 'SourcesController@show');
-Route::get('statistics/{slug}', 'StatisticsController@show');
+Route::get('statistics/uv_add', 'StatisticsController@uvAdd');
 /*
 Route::get('/', 'TopicsController@index')->name('root');
 

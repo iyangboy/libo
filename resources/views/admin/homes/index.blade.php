@@ -28,6 +28,7 @@
           <td colspan="5"><b>用户数据</b></td>
         </tr>
         <tr>
+          <td>UV</td>
           <td>注册总用户数</td>
           <td>会员人数</td>
           <td>身份证登记人数</td>
@@ -35,6 +36,7 @@
           <td>绑卡成功数</td>
         </tr>
         <tr>
+          <td>{{ $uv_source ?? '' }}</td>
           <td>{{ $user_count ?? '' }}</td>
           <td>{{ $user_grade_count ?? ''}}</td>
           <td>{{ $user_id_card_count ?? ''}}</td>
@@ -43,9 +45,10 @@
         </tr>
         @foreach($sources as $key => $value)
         <tr>
-          <td colspan="5"><b>来源-> {{ $value->name }}</b> [所属管理员: {{ $value->adminUser->name ?? '未分配'}}]</td>
+          <td colspan="6"><b>来源-> {{ $value->name }}</b> [所属管理员: {{ $value->adminUser->name ?? '未分配'}}]</td>
         </tr>
         <tr>
+          <td></td>
           <td>{{ $value->users()->count() ?? '' }}</td>
           <td>{{ $value->users()->where('grade_id', '>', 0)->count() ?? ''}}</td>
           <td>{{ $value->users()->where('id_card', '>', 0)->count() ?? ''}}</td>
@@ -81,7 +84,7 @@
         @endforeach
       </tbody>
     </table>
-    <table class="table table-bordered">
+    {{-- <table class="table table-bordered">
       <tr>
       <td width="20%"><canvas id="myChart" width="400" height="400"
         data-user_statistics_key="{{$user_statistics_key}}"
@@ -92,7 +95,7 @@
         <td width="20%"></td>
         <td width="20%"></td>
       </tr>
-    </table>
+    </table> --}}
     <div></div>
   </div>
 </div>
@@ -101,50 +104,50 @@
   $(document).ready(function () {
 
   });
-  $(function () {
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var user_statistics_key = $("#myChart").data('user_statistics_key');
-    var user_statistics_value = $("#myChart").data('user_statistics_value');
-    var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        // labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        labels: user_statistics_key,
-        datasets: [{
-          label: '近七天注册量',
-          // data: [12, 19, 3, 5, 2, 3, 7],
-          data: user_statistics_value,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
-    });
-  });
+  // $(function () {
+  //   var ctx = document.getElementById("myChart").getContext('2d');
+  //   var user_statistics_key = $("#myChart").data('user_statistics_key');
+  //   var user_statistics_value = $("#myChart").data('user_statistics_value');
+  //   var myChart = new Chart(ctx, {
+  //     type: 'bar',
+  //     data: {
+  //       // labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+  //       labels: user_statistics_key,
+  //       datasets: [{
+  //         label: '近七天注册量',
+  //         // data: [12, 19, 3, 5, 2, 3, 7],
+  //         data: user_statistics_value,
+  //         backgroundColor: [
+  //           'rgba(255, 99, 132, 0.2)',
+  //           'rgba(54, 162, 235, 0.2)',
+  //           'rgba(255, 206, 86, 0.2)',
+  //           'rgba(75, 192, 192, 0.2)',
+  //           'rgba(153, 102, 255, 0.2)',
+  //           'rgba(153, 102, 255, 0.2)',
+  //           'rgba(255, 159, 64, 0.2)'
+  //         ],
+  //         borderColor: [
+  //           'rgba(255,99,132,1)',
+  //           'rgba(54, 162, 235, 1)',
+  //           'rgba(255, 206, 86, 1)',
+  //           'rgba(75, 192, 192, 1)',
+  //           'rgba(153, 102, 255, 1)',
+  //           'rgba(153, 102, 255, 1)',
+  //           'rgba(255, 159, 64, 1)'
+  //         ],
+  //         borderWidth: 1
+  //       }]
+  //     },
+  //     options: {
+  //       scales: {
+  //         yAxes: [{
+  //           ticks: {
+  //             beginAtZero: true
+  //           }
+  //         }]
+  //       }
+  //     }
+  //   });
+  // });
 
 </script>

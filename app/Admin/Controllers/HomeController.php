@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Source;
 use App\Models\User;
+use App\Models\UserStatistic;
 use Carbon\Carbon;
 use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
@@ -77,9 +78,23 @@ class HomeController extends Controller
             $sources->where('created_at', '<', $search);
         }
         $sources = $sources->get();
-        $user_statistics = $this->statistics();
-        $user_statistics_key = collect($user_statistics)->keys();
-        $user_statistics_value = collect($user_statistics)->values();
+
+        // uv-来源
+        $today = Carbon::today()->toDateString();
+
+        // $statistic = UserStatistic::where('day_at', $today)->first();
+        $statistic = UserStatistic::firstOrCreate(['day_at' => $today]);
+
+        // $statistic->increment('uv');
+        // $statistic->visits()->increment();
+        $uv_source = $statistic->visits()->count();
+
+        // dd($statistic->uv);
+        // dd($statistic->visits()->count());
+
+        // $user_statistics = $this->statistics();
+        // $user_statistics_key = collect($user_statistics)->keys();
+        // $user_statistics_value = collect($user_statistics)->values();
         // dd($user_statistics_value);
         $data = [
             'request'               => $request,
@@ -91,10 +106,11 @@ class HomeController extends Controller
             'user_bank_card_count'  => $user_bank_card_count,
 
             'sources'               => $sources,
+            'uv_source'             => $uv_source,
 
-            'user_statistics'       => $user_statistics,
-            'user_statistics_key'   => $user_statistics_key,
-            'user_statistics_value' => $user_statistics_value,
+            // 'user_statistics'       => $user_statistics,
+            // 'user_statistics_key'   => $user_statistics_key,
+            // 'user_statistics_value' => $user_statistics_value,
         ];
 
         return $content
