@@ -26,6 +26,7 @@ Route::prefix('v1')
     ->group(function () {
 
         Route::get('statistics/uv_add', 'StatisticsController@uvAdd');
+        Route::get('sources/{slug}', 'SourcesController@show');
 
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
             ->group(function () {

@@ -89,6 +89,22 @@
         console.log("请求失败");
       }
     });
+
+    $.ajax({
+      type: "get",
+      url: tools.url + "/sources/" + sources_slug,
+      data: {
+      },
+      dataType: "json",
+      success: function (data, statusCode, xhr) {
+        console.log(data);
+      },
+      error: function (error) {
+        // console.log(error);
+        console.log("请求失败");
+      }
+    });
+
   }
 
   //按钮点击
