@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\Statistics\SetUVSynchro;
 use App\Models\UserStatistic;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -26,7 +27,9 @@ class StatisticsController extends AdminController
     {
         $grid = new Grid(new UserStatistic);
 
-        $grid->column('id', __('Id'));
+        $grid->model()->orderBy('day_at', 'desc');
+
+        // $grid->column('id', __('Id'));
         $grid->column('day_at', '时间');
         // $grid->column('count', __('Count'));
         $grid->column('uv', 'UV');
@@ -43,10 +46,14 @@ class StatisticsController extends AdminController
 
             // 去掉查看
             $actions->disableView();
-        });
 
+            if (\Admin::user()->can('admin-set-user-statistics')) {
+                // 设置来源信息
+                $actions->add(new SetUVSynchro);
+            }
+        });
         // 全部关闭
-        $grid->disableActions();
+        // $grid->disableActions();
         // 去掉新建
         $grid->disableCreateButton();
         // 去掉导出
