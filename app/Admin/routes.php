@@ -58,4 +58,7 @@ Route::group([
     $router->resource('credit-line-products', 'CreditLineProductsController');
     // 授信订单列表
     $router->resource('credit-line-orders', 'CreditLineOrdersController');
+
+    // uv-
+    $router->resource('user-statistics', 'StatisticsController');
 });

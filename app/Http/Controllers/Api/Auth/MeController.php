@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Http\Controllers\Api\StatisticsController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\UserSetBankRequest;
@@ -32,6 +33,12 @@ class MeController extends Controller
                 // 'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
             ]
         ]);
+
+        // 增加uv
+        $statistic = new StatisticsController();
+        $statistic->uvAdd();
+
+
         return new PrivateUserResource($request->user());
     }
 
