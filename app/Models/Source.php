@@ -36,4 +36,11 @@ class Source extends Model
     {
         return $this->hasMany(User::class, 'source_id');
     }
+
+    // 关联UV
+    public function uv()
+    {
+        return $this->hasMany(UVSource::class, 'source_id');
+    }
+
 }
