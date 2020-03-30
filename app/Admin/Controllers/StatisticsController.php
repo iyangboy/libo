@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Actions\Statistics\SetUVSynchro;
 use App\Models\UserStatistic;
+use Carbon\Carbon;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -32,7 +33,15 @@ class StatisticsController extends AdminController
         // $grid->column('id', __('Id'));
         $grid->column('day_at', '时间');
         // $grid->column('count', __('Count'));
-        $grid->column('uv', 'UV');
+        $grid->column('uv', 'UV')->display(function () {
+            $today = Carbon::today()->toDateString();
+            if ($this->day_at == $today) {
+                $statistic = UserStatistic::firstOrCreate(['day_at' => $today]);
+                return  big_number($statistic->visits()->count(), 0)->add($this->uv)->getValue();
+            } else {
+                return $this->uv;
+            }
+        })->label();
         // $grid->column('created_at', __('Created at'));
         // $grid->column('updated_at', __('Updated at'));
 
