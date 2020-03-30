@@ -72,6 +72,25 @@
     })
   }
 
+
+  uv();
+  function uv(){
+    $.ajax({
+      type: "get",
+      url: tools.url + "/statistics/uv_add",
+      data: {
+      },
+      dataType: "json",
+      success: function (data, statusCode, xhr) {
+        console.log(data);
+      },
+      error: function (error) {
+        // console.log(error);
+        console.log("请求失败");
+      }
+    });
+  }
+
   //按钮点击
   $(".apply").on("click", function () {
     if (flag) {
